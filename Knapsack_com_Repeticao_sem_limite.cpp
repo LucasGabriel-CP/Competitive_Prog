@@ -1,36 +1,5 @@
-//Knapsack com repetição e sem limite
+//Knapsack com repetiÃ§Ã£oo e sem limite
 //URI-2299 como exemplo
-#include <iostream>
-#include <cstring>
-#include <algorithm>
-#include <vector>
-#include <string>
-#include <queue>
-#include <set>
-#include <map>
-#include <cmath>
-#include <stack>
-#include <list>
-#include <limits.h>
-#include <string.h>
-
-#define pi 3.141592653589793
-#define eulerconstant 0.577215664901532
-#define sz 4050
-#define f first
-#define s second
-#define inf 1000000
-
-using namespace std;
-
-typedef pair<int, int> ii;
-typedef pair<char, int> ci;
-typedef pair<string, int> si;
-typedef vector< int > vi;
-typedef vector< char > vc;
-typedef vector<pair<int, int>> vii;
-typedef vector<pair< int, pair<int, int>>> viii;
-typedef vector<vector<int>> vvi;
 
 int N;
 int Points[110], Tempo[110];

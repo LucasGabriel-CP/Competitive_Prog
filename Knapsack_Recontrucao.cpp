@@ -1,38 +1,4 @@
 //URI-1767 usado como exemplo
-#include <iostream>
-#include <cstdio>
-#include <algorithm>
-#include <vector>
-#include <string>
-#include <queue>
-#include <set>
-#include <map>
-#include <cmath>
-#include <stack>
-#include <list>
-#include <limits.h>
-#include <string.h>
-#include <iomanip>
-
-using namespace std;
-
-#define pi 3.141592653589793
-#define eulerconstant 0.577215664901532
-#define sz 4050
-#define f first
-#define s second
-#define inf 1000000000
-#define inf64 1000000000000000000
-
-typedef pair<int, int> ii;
-typedef pair<char, int> ci;
-typedef pair<string, int> si;
-typedef vector< int > vi;
-typedef vector< char > vc;
-typedef vector<pair<int, int>> vii;
-typedef vector<pair< int, pair<int, int>>> viii;
-typedef vector<vector<int>> vvi;
-typedef long long ll;
 
 int Ans, N;
 int Price[350], Peso[100];

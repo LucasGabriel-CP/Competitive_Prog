@@ -1,51 +1,16 @@
-//Exemplo de dfs usando o exercício URI 1706
-#include <iostream>
-#include <cstdio>
-#include <algorithm>
-#include <vector>
-#include <string>
-#include <queue>
-#include <set>
-#include <map>
-#include <cmath>
-#include <stack>
-#include <list>
-#include <limits.h>
-#include <string.h>
-#include <iomanip>
-#include <functional>
-
-using namespace std;
-
-#define pi 3.141592653589793
-#define eulerconstant 0.577215664901532
-#define sz 500
-#define f first
-#define s second
-#define inf 1000000000
-#define inf64 1000000000000000000
-
-typedef pair<int, int> ii;
-typedef pair<char, int> ci;
-typedef pair<int, string> si;
-typedef vector< int > vi;
-typedef vector< char > vc;
-typedef vector<pair<int, int>> vii;
-typedef vector<pair< int, pair<int, int>>> viii;
-typedef vector<vector<int>> vvi;
-typedef long long ll;
+//Exemplo de dfs usando o exercÃ­cio URI 1706
 
 char Let[1050];
 bool Visit[sz]; //Vetor de visitados
-vi AdjList[sz]; //Lista de adjacêncai
+vi AdjList[sz]; //Lista de adjacÃªncai
 
 int Bes(int Cur)
 {
-    Visit[Cur] = true; //Visito o vértice
+    Visit[Cur] = true; //Visito o vï¿½rtice
     int Ans = 0;
     if  (Let[Cur] == 'B')
         Ans = 1;
-    for (int to : AdjList[Cur]) //Chamo a função pra cada vértice adjacênte
+    for (int to : AdjList[Cur]) //Chamo a funÃ§Ã£o pra cada vÃ©rtice adjacente
     {
         if  (!Visit[to])
             Ans += Bes(to);
@@ -60,7 +25,7 @@ int main()
     {
         bool Da = true;
         for (int i = 0; i < N; i++) AdjList[i].clear(); //Limpar cada lista
-        for (int i = 0; i < N; i++) Visit[i] = 0;		//Atribuir falso a todos vértices
+        for (int i = 0; i < N; i++) Visit[i] = 0;		//Atribuir falso a todos vÃ©rtice
 
         for (int i = 0; i < N; i++)
             scanf(" %c", &Let[i]); 
@@ -70,7 +35,7 @@ int main()
             int a, b; scanf("%d %d", &a, &b);
             a--;
             b--;
-            AdjList[a].push_back(b);	//adiciono Vértices a<->b
+            AdjList[a].push_back(b);	//adiciono vÃ©rtice a<->b
             AdjList[b].push_back(a);
         }
         for (int i = 0; i < N; i++)
