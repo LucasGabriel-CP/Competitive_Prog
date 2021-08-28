@@ -1,4 +1,4 @@
-//Exemplo de dfs usando o exercício URI 1706
+//Exemplo de dfs (para componentes conexos) usando o exercício URI 1706
 
 char Let[1050];
 bool Visit[sz]; //Vetor de visitados
@@ -6,7 +6,7 @@ vi AdjList[sz]; //Lista de adjacêncai
 
 int Bes(int Cur)
 {
-    Visit[Cur] = true; //Visito o v�rtice
+    Visit[Cur] = true; //Visito o vértice
     int Ans = 0;
     if  (Let[Cur] == 'B')
         Ans = 1;
