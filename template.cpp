@@ -21,8 +21,8 @@ using namespace std;
 #define sz 550
 #define f first
 #define s second
-#define inf ~(1<<31)
-#define inf64 ~(1<<63)
+#define inf ~(1<<31) - 1
+#define inf64 1000000000000000000
 #define goldenratio ((double)(1 + sqrt(5)) / 2)
 
 typedef pair<int, int> ii;
@@ -36,3 +36,6 @@ typedef vector<pair<int, int>> vii;
 typedef vector<pair< int, pair<int, int>>> viii;
 typedef vector<vector<int>> vvi;
 typedef long long ll;
+
+int main()
+{   ios_base::sync_with_stdio(false); cin.tie(0);   }
