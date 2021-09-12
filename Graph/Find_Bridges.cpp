@@ -9,6 +9,7 @@ void DFS(int v, int p = -1)
 	tin[v] = low[v] = Timer++;	//Aumento o timer a cada vez que entro na DFS
 	for (int to : AdjList[v])
 	{
+		if (to == p) continue;
 		if (Visit[to])
 			low[v] = min(low[v], tin[to]); //Se visitado eu pego o mínimo do low do pai e do tin filho
 		else
