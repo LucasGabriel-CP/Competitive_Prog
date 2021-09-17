@@ -24,6 +24,7 @@ using namespace std;
 #define inf ~(1<<31) - 1
 #define inf64 1000000000000000000
 #define goldenratio ((double)(1 + sqrt(5)) / 2)
+#define isvalid(a_, b_, n_, m_) (a_ >= 0 && a_ < n_ && b_ >= 0 && b_ < m_)
 
 typedef pair<int, int> ii;
 typedef pair<char, int> ci;
