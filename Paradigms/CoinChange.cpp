@@ -34,3 +34,14 @@ void CCGreedy(vi Moedas, int Val) //O(Val), pode dar resultados incertos
 		printf("%d ", Ans[i]);
 	printf("%d\n", Ans[Ans.size() - 1]);
 }
+
+vi Moedas;
+bool CCValid(int S, int N) //O(min(N, S)), verifica se é possível atingir o valor S desejado
+{
+	if (S == 0)
+		return 1;
+	if (N == 0 || S < 0)
+		return 0;
+
+	return CCValid(S - Moedas[N - 1], N - 1) || CCValid(S, N - 1);
+}
