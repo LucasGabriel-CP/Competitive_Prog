@@ -1,4 +1,3 @@
-
 int N, M, Timer;
 vector<bool> Visit;
 vi AdjList[10050], tin, low;

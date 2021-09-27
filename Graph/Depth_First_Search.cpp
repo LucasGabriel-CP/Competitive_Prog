@@ -53,3 +53,29 @@ int main()
             printf("N\n");
     }
 }
+
+
+//Topological Sort
+vector<bool> Visit;
+vvi AdjList;
+vi Ans;		//Da o resultado ao contrário
+
+void dfs(int v)
+{
+	Visit[v] = true;
+	for (int u : AdjList[v])
+	{
+		if (!Visit[u])
+			dfs(u);
+	}
+	Ans.push_back(v);
+}
+
+void topological_sort(int N)
+{
+	Visit.assign(N, false);
+	Ans.clear();
+	for (int i = 0; i < N; i++)
+		if (!Visit[i])
+			dfs(i);
+}
