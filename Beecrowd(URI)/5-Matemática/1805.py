@@ -1,0 +1,5 @@
+x = input().split()
+a = int(x[0])
+b = int(x[1])
+tot = int(b*(b+1)/2 - a*(a-1)/2)
+print(tot)
