@@ -44,9 +44,9 @@ int query(int i, int j, int x, int l = 0, int r = N, int id = 1)
 {
     if (r < i || j < l)
         return 0;
-    if (i <= l && r <= j)   //upper_bound if <=x
-        return lower_bound(Seg[id].begin(), Seg[id].end(), x) - Seg[2 * id].begin();
-    return query(i, j, l, Mid, 2 * id) + query(i, j, Mid, r, 2 * id + 1);
+    if (i <= l && r <= j)   //upper_bound if > x
+        return lower_bound(Seg[id].begin(), Seg[id].end(), x) - Seg[id].begin();
+    return query(i, j, x, l, Mid, 2 * id) + query(i, j, x, Mid, r, 2 * id + 1);
 }
 
 int main()
