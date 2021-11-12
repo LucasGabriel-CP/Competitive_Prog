@@ -36,9 +36,7 @@ int LCS(string& Str1, string& Str2)
 				dp[i][j] = 0;
 			else
 				if (Str1[i - 1] == Str2[j - 1])
-				{
 					dp[i][j] = dp[i - 1][j - 1] + 1;
-				}
 				else
 					dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
 		}
