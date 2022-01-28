@@ -4,8 +4,8 @@ using namespace std;
 
 #define pi 3.141592653589793
 #define eulerconstant 0.577215664901532
-#define MAX_N 100005
-#define LG_N 17
+#define MAXN 100005
+#define LGN 17
 #define f first
 #define s second
 #define inf ~(1<<31)
@@ -13,7 +13,9 @@ using namespace std;
 #define goldenratio ((double)(1 + sqrt(5)) / 2)
 #define isvalid(a_, b_, n_, m_) (a_ >= 0 && a_ < n_ && b_ >= 0 && b_ < m_)
 #define forn(i, n) for (int i = 0; i < (int)(n); ++i)
+#define rforn(i, n) for (int i = (int)(n); i >= 0; --i)
 #define forr(i, l, r) for (int i = (int)(l); i < (int)(r); ++i)
+#define rforr(i, l, r) for (int i = (int)(l); i >= (int)(r); --i)
 #define Mid ((l + r) >> 1)
 #define filIn freopen("input.txt", "r", (__acrt_iob_func(0)));
 #define filOut freopen("output.txt", "w", (__acrt_iob_func(1)));
