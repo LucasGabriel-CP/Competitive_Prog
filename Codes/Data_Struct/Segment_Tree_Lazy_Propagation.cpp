@@ -1,109 +1,70 @@
-#define f first
-#define s second
+//Range Sum with addition to segments
+#include <bits/stdc++.h>
 
-typedef pair<int, int> ii;
-typedef ii no;
+using namespace std;
+
+#define MAXN 1000055
+#define Mid ((l + r) >> 1)
+
+typedef long long ll;
+typedef int no;
 
 int N;
-int lazy[4 * MAX_N];
-no Seg[4 * MAX_N], Vet[MAX_N];
+int lazy[4 * MAXN];
+no Seg[4 * MAXN], Vet[MAXN];
 
-void Modify(no& t, no& a, no& b)
-{
-    if (a.f > b.f)
-    {
-        t = a;
-        return;
-    }
-    if (b.f > a.f)
-    {
-        t = b;
-        return;
-    }
-    t.f = a.f;
-    t.s = min(a.s, b.s);
+void Modify(no& t, no& a, no& b){ //Fazer a modificação no nó
+    t = a + b;
 }
 
-void prop(int id, int l, int r)
-{
-    if (lazy[id])
-    {
-        Seg[id].f += lazy[id];
-        if (l != r)
-        {
+void Give(int l, int r, ll la, no& t){ //Mandar a preguiça pro nó
+    t += (la * (r - l));
+}
+
+void prop(int id, int l, int r){ //Propagar a preguiça, se houver
+    if (lazy[id]){
+        Give(l, r, lazy[id], Seg[id]);
+        if (l != r){ //Mandar pros filhos
             lazy[2 * id] += lazy[id];
             lazy[2 * id + 1] += lazy[id];
         }
-        lazy[id] = 0;
+        lazy[id] = 0; //remover preguiça
     }
 }
 
-void build(int id = 1, int l = 0, int r = N - 1)
-{
+void build(int id = 1, int l = 0, int r = N){ //[l,r)
     lazy[id] = 0;
-    if (l == r)
+    if (r - l < 2)
         Seg[id] = Vet[l];
-    else
-    {
+    else{
         build(2 * id, l, Mid);
-        build(2 * id + 1, Mid + 1, r);
-        Modify(Seg[id], Seg[2 * id], Seg[2 * id + 1]);
+        build(2 * id + 1, Mid, r);
+        Modify(Seg[id], Seg[2*id], Seg[2*id+1]);
     }
 }
 
-void Update(int i, int j, int x, int l = 0, int r = N - 1, int id = 1)
-{
-    if (i <= l && r <= j)
-    {
+void Update(int i, int j, int x, int l = 0, int r = N, int id = 1){ //[l,r)
+    if (i <= l && r <= j){//caso esteja no range, atribui a preguiça
         lazy[id] += x;
         prop(id, l, r);
         return;
     }
     prop(id, l, r);
-    if (r < i || j < l)
-        return;
+    if (i >= r || l >= j) return;
 
     Update(i, j, x, l, Mid, 2 * id);
-    Update(i, j, x, Mid + 1, r, 2 * id + 1);
+    Update(i, j, x, Mid, r, 2 * id + 1);
 
     Modify(Seg[id], Seg[2 * id], Seg[2 * id + 1]);
 }
 
-no query(int i, int j, int l = 0, int r = N - 1, int id = 1)
-{
-    if (r < i || j < l)
-        return { -1, -1 };   //Don't change the answer
+no query(int i, int j, int l = 0, int r = N, int id = 1){ //[l,r)
+    if (i >= r || l >= j) return 0;
     prop(id, l, r);
-    if (i <= l && r <= j)
-        return Seg[id];
+    if (i <= l && r <= j) return Seg[id];
 
     no Op1 = query(i, j, l, Mid, 2 * id);
-    no Op2 = query(i, j, Mid + 1, r, 2 * id + 1);
-    no ans = { -1, -1 };
-
-    Modify(ans, Op1, Op2);
+    no Op2 = query(i, j, Mid, r, 2 * id + 1);
+    no ans = 0; Modify(ans, Op1, Op2);
     return ans;
-}
-
-int main()
-{
-    int Q;
-    build();
-    while (Q--)
-    {
-        int a, b; char t;
-        scanf(" %c %d %d", &t, &a, &b);
-        if (t == 'C')
-        {
-            no ans = query(a - 1, b - 1);
-            printf("%d\n", ans.s + 1);
-        }
-        else
-        {
-            int v; scanf("%d", &v);
-            Update(a - 1, b - 1, v);
-        }
-    }
-
-    return 0;
 }
