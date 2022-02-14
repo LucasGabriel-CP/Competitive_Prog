@@ -1,39 +1,51 @@
+//Sort vertices on a DAG
+#include <bits/stdc++.h>
 
-viii Edge;	//a -> b, custo
+using namespace std;
 
-void printPath(int D, vi Pre)
-{
-	vi path;
-	for (int i = D; i != -1; i = Pre[i])
-		path.push_back(i);
+#define MAXN (int)10e5
+#define inf (int)1e9
 
-	for (int i = path.size() - 1; i > 0; i--)
-		printf("%d ", path[i]);
-	printf("%d", path.back());
+typedef vector<int> vi;
+typedef vector<pair<int, int>> vii;
+
+int N, V;
+vii AdjList[MAXN];
+
+void BellMan(int S, int D){
+    vi Dist(N, inf); Dist[S] = 0;
+
+    for(int i = 0; i < V - 1; ++i){
+        bool modified = false;
+        for (int u = 0; u < V; ++u){
+            if (Dist[u] != inf){
+                for (auto to: AdjList[u]){
+                    int v = to.first, w = to.second;
+                    if (Dist[u] + w >= Dist[v]) continue;
+                    Dist[v] = Dist[u] + w;
+                    modified = true;
+                }
+            }
+        }
+        if (!modified) break;
+    }
+
+    bool NegativeCycle = false;
+    for (int u = 0; u < V; ++u)
+        if (Dist[u] != inf)
+            for (auto to: AdjList[u]){
+                int v = to.first, w = to.second;
+                if (Dist[v] > Dist[u] + w)
+                    NegativeCycle = true;
+            }
+    if (NegativeCycle) printf("Tem ciclo negativo.\n");
+    else{
+    for (int u = 0; u < V; ++u)
+        printf("SSSP(%d, %d) = %d\n", S, u, Dist[u]);
+    }
 }
 
-int Ford(int O, int D, int N, int M)
-{
-	vi Dist(N, inf);
-	vi Pre(N, -1);
-	Dist[O] = 0;
-	bool change = true;
-	while (change)
-	{
-		change = false;
-		for (int i = 0; i < M; i++)
-		{
-			if (Dist[Edge[i].f] < inf)
-			{
-				if (Dist[Edge[i].s.f] > Dist[Edge[i].f] + Edge[i].s.s)
-				{
-					Dist[Edge[i].s.f] = Dist[Edge[i].f] + Edge[i].s.s;
-					Pre[Edge[i].s.f] = Edge[i].f;
-					change = true;
-				}
-			}
-		}
-	}
-
-	return Dist[D];
+int main(){
+    BellMan(0, 3);
+    return 0;
 }
