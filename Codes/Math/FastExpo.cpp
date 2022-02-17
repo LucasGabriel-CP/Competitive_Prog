@@ -1,9 +1,7 @@
-ll FastExpo(ll x, ll n, ll m) 
-{
+ll FastExpo(ll x, ll n, ll m) {
     x %= m;
     ll res = 1;
-    while (n > 0) 
-    {
+    while (n > 0) {
         if (n & 1)
             res = res * x % m;
         x = x * x % m;
@@ -12,8 +10,7 @@ ll FastExpo(ll x, ll n, ll m)
     return res;
 }
 
-int main()
-{
+int main(){
     ll B, P, M; //Base, Expoente, Mod
     while (scanf("%lld %lld %lld", &B, &P, &M) != EOF)
         printf("%lld\n", FastExpo(B, P, M));

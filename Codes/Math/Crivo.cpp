@@ -6,14 +6,11 @@ using namespace std;
 bitset< MAXPRIME > isp;
 vector<int> Primes;
 
-void Crivo()
-{
+void Crivo(){
 	isp.set();
 	isp[0] = isp[1] = 0;
-	for (ll p = 2; p <= MAXPRIME; ++p)
-	{
-		if (isp[p])
-		{
+	for (ll p = 2; p <= MAXPRIME; ++p){
+		if (isp[p]){
 			for (ll k = 2 * p; k <= MAXPRIME; k += p)
 				isp[k] = 0;
 			Primes.push_back((int)p);
