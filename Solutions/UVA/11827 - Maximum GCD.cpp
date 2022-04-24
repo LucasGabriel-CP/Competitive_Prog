@@ -5,7 +5,7 @@ using namespace std;
 #define pi 3.141592653589793
 #define eulerconstant 0.577215664901532
 #define MAXN 100005
-#define LGN 17
+#define LGN 15
 #define LSOne(S) ((int)(S) & -(int)(S))
 #define f first
 #define s second
@@ -18,10 +18,8 @@ using namespace std;
 #define forr(i, l, r) for (int i = (int)(l); i < (int)(r); ++i)
 #define rforr(i, l, r) for (int i = (int)(l); i >= (int)(r); --i)
 #define Mid (l + ((r - l) >> 1))
-#define GCD(a_, b_) (__gcd(a_, b_))
-#define LCM(a_, b_) (a_/__gcd(a_, b_)*b_)
-#define filIn freopen("input.txt", "r", (__acrt_iob_func(0)));
-#define filOut freopen("output.txt", "w", (__acrt_iob_func(1)));
+#define filIn freopen("input.txt", "r", stdin);
+#define filOut freopen("output.txt", "w", stdout);
 
 typedef pair<int, int> ii;
 typedef pair<int, pair<int, int>> iii;
@@ -34,16 +32,35 @@ typedef vector< char > vc;
 typedef vector<pair<int, int>> vii;
 typedef vector<pair< int, pair<int, int>>> viii;
 typedef vector<vector<int>> vvi;
-typedef long long ll;
+typedef unsigned long long ll;
 typedef int no;
 
-void solve(){
+int n, Vet[105];
 
+void solve(){
+    string aux, Str; getline(cin, Str);
+    stringstream ss(Str);
+    int id = 0;
+    while(ss >> aux){
+        Vet[id++] = stoi(aux);
+    }
+    int Maior = -1;
+    forn(i, id){
+        forr(j, i + 1, id){
+            Maior = max(__gcd(Vet[i], Vet[j]), Maior);
+        }
+    }
+    cout << Maior << '\n';
 }
 
 int main(){
-    ios_base::sync_with_stdio(false); cin.tie(0);
-    solve();
+	ios_base::sync_with_stdio(false); cin.tie(0);
+	//filIn; //filOut;
+	int Case; cin >> Case;
+	cin.ignore();
+	forn(i, Case){
+        solve();
+	}
 
-    return 0;
+	return 0;
 }
