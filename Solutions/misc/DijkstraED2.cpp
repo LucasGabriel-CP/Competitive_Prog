@@ -22,34 +22,23 @@ struct Heap{
     vi Idx;
     Heap(int n_){
         n = n_;
-        Size = 0;
+        Size = n_;
         Vet.resize(n);
-        Idx.resize(n);
+        Idx.resize(n + 1, -1);
+        for (int i = 0; i < n; ++i)
+            Vet[i].s = Idx[i] = i;
     }
     bool Empty(){
         return Size == 0;
-    }
-    void InsertHeap(int v, int val){
-        Vet[Size++] = {val, v};
-        int id = Size - 1;
-        Idx[v] = id;
-        while(id && Vet[id/2].f > Vet[id].f){
-            std::swap(Idx[Vet[id/2].s], Idx[Vet[id].s]);
-            std::swap(Vet[id/2], Vet[id]);
-            id /= 2;
-        }
-    }
-    void Init(vii &arr){
-        for (int i = 0; i < (int)arr.size(); ++i){
-            InsertHeap(arr[i].f, arr[i].s);
-        }
     }
     void Heapify(int N, int id = 0){
         int l = 2 * id + 1, highest = id;
         int r = l + 1;
         if (l >= N) return;
-        if (Vet[l].f > Vet[highest].f) highest = l;
-        if (r < N && Vet[r].f > Vet[highest].f) highest = r;
+        if (Vet[l].f > Vet[highest].f)
+            highest = l;
+        if (r < N && Vet[r].f > Vet[highest].f)
+            highest = r;
         if (highest != id){
             std::swap(Idx[Vet[highest].s], Idx[Vet[id].s]);
             std::swap(Vet[id], Vet[highest]);
@@ -79,7 +68,7 @@ struct Heap{
 int Dijkstra(vvii &AdjList, vi &Dist, int n, int o, int d){
     Dist.assign(n, inf);
     Heap myPq(n);
-    myPq.Init(AdjList[o]);
+    myPq.DecreaseKey(0, o);
     Dist[o] = 0;
     while(!myPq.Empty()){
         ii u = myPq.ExtractHeap();
