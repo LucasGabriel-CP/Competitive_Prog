@@ -1,23 +1,20 @@
 #include <bits/stdc++.h>
-
-using namespace std;
-
 #define f first
 #define s second
 #define inf (int)1e9
 #define inf64 (int)4e18
 
-typedef pair<int, int> ii;
-typedef pair<int, pair<int, int>> iii;
-typedef pair<char, int> ci;
-typedef pair<string, int> si;
-typedef pair<int, string> is;
-typedef vector< int > vi;
-typedef vector< char > vc;
-typedef vector<pair<int, int>> vii;
-typedef vector<pair< int, pair<int, int>>> viii;
-typedef vector<vector<int>> vvi;
-typedef vector<vector<pair<int, int>>> vvii;
+typedef std::pair<int, int> ii;
+typedef std::pair<int, std::pair<int, int>> iii;
+typedef std::pair<char, int> ci;
+typedef std::pair<std::string, int> si;
+typedef std::pair<int, std::string> is;
+typedef std::vector< int > vi;
+typedef std::vector< char > vc;
+typedef std::vector<std::pair<int, int>> vii;
+typedef std::vector<std::pair< int, std::pair<int, int>>> viii;
+typedef std::vector<std::vector<int>> vvi;
+typedef std::vector<std::vector<std::pair<int, int>>> vvii;
 
 struct Heap{
     int n, Size;
@@ -32,7 +29,7 @@ struct Heap{
     bool Empty(){
         return Size == 0;
     }
-    void InsertHeap(int val, int v){
+    void InsertHeap(int v, int val){
         Vet[Size++] = {val, v};
         int id = Size - 1;
         Idx[v] = id;
@@ -51,8 +48,8 @@ struct Heap{
         int l = 2 * id + 1, highest = id;
         int r = l + 1;
         if (l >= N) return;
-        if (Vet[l] > Vet[highest]) highest = l;
-        if (r < N && Vet[r] > Vet[highest]) highest = r;
+        if (Vet[l].f > Vet[highest].f) highest = l;
+        if (r < N && Vet[r].f > Vet[highest].f) highest = r;
         if (highest != id){
             std::swap(Idx[Vet[highest].s], Idx[Vet[id].s]);
             std::swap(Vet[id], Vet[highest]);
@@ -80,7 +77,7 @@ struct Heap{
 };
 
 int Dijkstra(vvii &AdjList, vi &Dist, int n, int o, int d){
-    Dist.resize(n);
+    Dist.assign(n, inf);
     Heap myPq(n);
     myPq.Init(AdjList[o]);
     Dist[o] = 0;
@@ -99,6 +96,16 @@ int Dijkstra(vvii &AdjList, vi &Dist, int n, int o, int d){
 }
 
 int main(){
+	int n, m; std::cin >> n >> m;
+	vvii AdjList(n, vii());
+	vi Dist;
+	for(int i = 0; i < m; ++i){
+		int a, b, p; std::cin >> a >> b >> p;
+		AdjList[a].push_back({b, p});
+	}
+
+	Dijkstra(AdjList, Dist, n, 0, 3);
+	std::cout << Dist[3] << '\n';
 
     return 0;
 }
