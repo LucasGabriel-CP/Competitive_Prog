@@ -3,7 +3,6 @@
 using namespace std;
 
 #define pi 3.141592653589793
-#define eulerconstant 0.577215664901532
 #define MAXN 100005
 #define LGN 17
 #define LSOne(S) ((int)(S) & -(int)(S))
@@ -22,20 +21,31 @@ using namespace std;
 #define LCM(a_, b_) (a_/__gcd(a_, b_)*b_)
 #define filIn freopen("input.txt", "r", (__acrt_iob_func(0)));
 #define filOut freopen("output.txt", "w", (__acrt_iob_func(1)));
+#define sz(vet) ((int)(vet).size())
+#define all(vet) (vet).begin(),(vet).end()
 
 typedef pair<int, int> ii;
 typedef pair<int, pair<int, int>> iii;
 typedef pair<char, int> ci;
 typedef pair<string, int> si;
-typedef pair<int, string> is;
-typedef vector< int > vi;
-typedef vector< long > vl;
-typedef vector< char > vc;
+typedef vector<int> vi;
+typedef vector<long> vl;
+typedef vector<char> vc;
 typedef vector<pair<int, int>> vii;
 typedef vector<pair< int, pair<int, int>>> viii;
 typedef vector<vector<int>> vvi;
 typedef long long ll;
 typedef int no;
+
+template<class T,class T2>T mmin(T a,T2 b){return a<b?a:b;}
+template<class T,class T2>T mmax(T a,T2 b){return a>b?a:b;}
+template<class T,class ...T2>T mmin(T a,T2 ...b){return mmin(a,mmin(b...));}
+template<class T,class ...T2>T mmax(T a,T2 ...b){return mmax(a,mmax(b...));}
+template<class T>T aabs(T a){return a<0?-a:a;}
+
+#define min mmin
+#define max mmax
+#define abs aabs
 
 void solve(){
 
@@ -43,7 +53,10 @@ void solve(){
 
 int main(){
     ios_base::sync_with_stdio(false); cin.tie(0);
-    solve();
+    int t = 1;
+    cin >> t;
+    while(t--)
+        solve();
 
     return 0;
 }
