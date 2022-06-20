@@ -1,39 +1,35 @@
 int N, M, Timer;
 vector<bool> Visit;
 vi AdjList[10050], tin, low;
-map<int, int> Cut;
+set<int> Cut;
 
-void DFS(int v, int p = -1)
-{
-	Visit[v] = true;
-	tin[v] = low[v] = Timer++;
+void DFS(int u, int p = -1){
+	Visit[u] = true;
+	tin[u] = low[u] = Timer++;
 	int children = 0;
-	for (int to : AdjList[v])
-	{
-		if (to == p)	continue;
-		if (Visit[to])
-			low[v] = min(low[v], tin[to]);
-		else
-		{
-			DFS(to, v);
-			low[v] = min(low[v], low[to]);
-			if (low[to] >= tin[v] && p != -1)
-				Cut[v]++;
+	for (int v : AdjList[u]){
+		if (to == p)
+            continue;
+		if (Visit[v])
+			low[u] = min(low[u], tin[v]);
+		else{
+			DFS(v, u);
+			low[u] = min(low[u], low[v]);
+			if (low[v] >= tin[u] && p != -1)
+				Cut.insert(u);
 			++children;
 		}
 	}
-	if (p == -1 && children > 1)	Cut[v]++;
+	if (p == -1 && children > 1) Cut.insert(u);
 }
 
-void FindAtCut()
-{
+void FindAtCut(){
 	Timer = 0;
 	Visit.assign(N, false);
 	tin.assign(N, -1);
 	low.assign(N, -1);
 
-	for (int i = 0; i < N; i++)	
-	{
+	for (int i = 0; i < N; i++){
 		if (!Visit[i])
 			DFS(i);
 	}

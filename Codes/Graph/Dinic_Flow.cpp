@@ -11,7 +11,6 @@ struct FlowEdge{
     FlowEdge(int v, int u, int cap) : v(v), u(u), cap(cap){}
 };
 
-
 struct Dinic{
     const long long flow_inf = 1e18;
     vector<FlowEdge> edges;
@@ -19,7 +18,6 @@ struct Dinic{
     vector<int> level, ptr;
     queue<int> myQ;
     int n, s, t, m = 0;
-
 
     Dinic(int n, int s, int t) : n(n), s(s), t(t){
         Adj.resize(n); level.resize(n); ptr.resize(n);
