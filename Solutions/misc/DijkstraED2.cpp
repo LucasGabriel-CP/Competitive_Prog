@@ -20,17 +20,18 @@ struct Heap{
     int n, Size;
     vii Vet;
     vi Idx;
+
     Heap(int n_){
         n = n_;
-        Size = n_;
-        Vet.resize(n);
+        Size = 0;
+        Vet.resize(n, {inf, -1});
         Idx.resize(n + 1, -1);
         for (int i = 0; i < n; ++i)
             Vet[i].s = Idx[i] = i;
     }
-    bool Empty(){
-        return Size == 0;
-    }
+
+    bool empty(){ return Size == 0; }
+
     void Heapify(int N, int id = 0){
         int l = 2 * id + 1, highest = id;
         int r = l + 1;
@@ -45,16 +46,20 @@ struct Heap{
             Heapify(N, highest);
         }
     }
+
     ii ExtractHeap(){
         if (!Size) abort();
         ii Temp = Vet[0];
         --Size;
         std::swap(Idx[Vet[0].s], Idx[Vet[Size].s]);
         std::swap(Vet[0], Vet[Size]);
+        Vet[Size].f = inf;
         Heapify(Size);
         return Temp;
     }
+
     void DecreaseKey(int val, int v){
+        if (Vet[Idx[v]].f == inf) ++Size;
         Vet[Idx[v]].f = val;
         int id = Idx[v];
         while(id && Vet[id/2].f > Vet[id].f){
