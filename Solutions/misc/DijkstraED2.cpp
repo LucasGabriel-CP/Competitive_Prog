@@ -25,25 +25,23 @@ struct Heap{
         n = n_;
         Size = 0;
         Vet.resize(n, {inf, -1});
-        Idx.resize(n + 1, -1);
-        for (int i = 0; i < n; ++i)
-            Vet[i].s = Idx[i] = i;
+        Idx.resize(n, -1);
     }
 
     bool empty(){ return Size == 0; }
 
-    void Heapify(int N, int id = 0){
-        int l = 2 * id + 1, highest = id;
-        int r = l + 1;
-        if (l >= N) return;
-        if (Vet[l].f > Vet[highest].f)
-            highest = l;
-        if (r < N && Vet[r].f > Vet[highest].f)
-            highest = r;
-        if (highest != id){
-            std::swap(Idx[Vet[highest].s], Idx[Vet[id].s]);
-            std::swap(Vet[id], Vet[highest]);
-            Heapify(N, highest);
+    void Heapify(int id = 0){
+        int l = 2 * id + 1, r = 2 * id + 2, smallest = id;
+        if (l >= Size) return;
+        if (Vet[l].f < Vet[smallest].f)
+            smallest = l;
+        if (r < Size && Vet[r].f < Vet[smallest].f)
+            smallest = r;
+        if (smallest != id){
+            Idx[Vet[smallest].s] = id;
+            Idx[Vet[id].s] = smallest;
+            std::swap(Vet[id], Vet[smallest]);
+            Heapify(smallest);
         }
     }
 
@@ -51,21 +49,27 @@ struct Heap{
         if (!Size) abort();
         ii Temp = Vet[0];
         --Size;
-        std::swap(Idx[Vet[0].s], Idx[Vet[Size].s]);
+        Idx[Vet[0].s] = Size;
+        Idx[Vet[Size].s] = 0;
         std::swap(Vet[0], Vet[Size]);
         Vet[Size].f = inf;
-        Heapify(Size);
+        Heapify();
         return Temp;
     }
 
     void DecreaseKey(int val, int v){
-        if (Vet[Idx[v]].f == inf) ++Size;
-        Vet[Idx[v]].f = val;
+        if (Idx[v] == -1){
+            Vet[Size] = {val, v};
+            Idx[v] = Size;
+            ++Size;
+        }
         int id = Idx[v];
-        while(id && Vet[id/2].f > Vet[id].f){
-            std::swap(Idx[Vet[id/2].s], Idx[Vet[id].s]);
-            std::swap(Vet[id/2], Vet[id]);
-            id /= 2;
+        Vet[id].f = val;
+        while(id && Vet[(id-1)/2].f > Vet[id].f){
+            Idx[Vet[(id-1)/2].s] = id;
+            Idx[Vet[id].s] = (id-1)/2;
+            std::swap(Vet[(id-1)/2], Vet[id]);
+            id = (id-1)/2;
         }
     }
 };
