@@ -1,45 +1,34 @@
-//Dijkstra
-//Priority queue com pair
-//Pair 		-> Peso / Vértice
-//Visitados -> Peso inicial como infinito
+vector<pair<int, int>> AdjList[20];
+vector<int> Visit, P;
+int n;
 
-vii AdjList[20];
-vi Visit, P;
-
-void Dijkstra(int O, int D)
-{
-	int N = AdjList.size();
-	Visit.assign(N, inf);
-	P.assign(N, -1);
+int Dijkstra(int O, int D){
+	dist.assign(n, inf);
+	P.assign(n, -1);
 
 	priority_queue< ii, vii, greater<ii> > myPq;
-	Visit[O] = 0;
-	myPq.push({ 0, O });
-	while (!myPq.empty())
-	{
-		ii Fon = myPq.top();
+	dist[O] = 0;
+	myPq.push({0, O});
+	while (!myPq.empty()){
+		ii u = myPq.top();
 		myPq.pop();
-		if (Fon.f != Visit[Fon.s]) continue;
-
-		for (ii edge : AdjList[Fon.s])
-		{
-			int to = edge.f;
-			int len = edge.s;
-			if (Visit[Fon.s] + len < Visit[to])
-			{
-				Visit[to] = Visit[Fon.s] + len;
-				P[to] = Fon.s;
-				myPq.push({ Visit[to], to });
+		if (Fon.f != dist[Fon.s]) continue;
+		for (ii edge : AdjList[u.s]){
+			int v = edge.f;
+			int w = edge.s;
+			if (dist[u.s] + w < dist[v]){
+				dist[v] = dist[u.s] + w;
+				P[v] = u.s;
+				myPq.push({dist[v], v});
 			}
 		}
 	}
-	
-	int Ans = Visit[D];
+
 	ConstPath(D);
+	return dist[D];
 }
 
-void ConstPath(int t)
-{
+void ConstPath(int t){
 	vi Path;
 	for (int v = t; v != O; v = P[v])
 		Path.push_back(v);

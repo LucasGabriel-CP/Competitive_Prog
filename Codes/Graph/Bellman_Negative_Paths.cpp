@@ -1,28 +1,27 @@
-//Sort vertices on a DAG
 #include <bits/stdc++.h>
 
 using namespace std;
 
-#define MAXN (int)10e5
-#define inf (int)1e9
-
 typedef vector<int> vi;
 typedef vector<pair<int, int>> vii;
 
-int N, V;
+const int MAXN = (int)1e5
+const int inf = (int)1e9
+
+int n;
 vii AdjList[MAXN];
 
-void BellMan(int S, int D){
-    vi Dist(N, inf); Dist[S] = 0;
+int BellMan(int S, int D){
+    vi dist(n, inf); dist[S] = 0;
 
-    for(int i = 0; i < V - 1; ++i){
+    for(int i = 0; i < n - 1; ++i){
         bool modified = false;
-        for (int u = 0; u < V; ++u){
-            if (Dist[u] != inf){
+        for (int u = 0; u < n; ++u){
+            if (dist[u] != inf){
                 for (auto to: AdjList[u]){
                     int v = to.first, w = to.second;
-                    if (Dist[u] + w >= Dist[v]) continue;
-                    Dist[v] = Dist[u] + w;
+                    if (dist[u] + w >= dist[v]) continue;
+                    dist[v] = dist[u] + w;
                     modified = true;
                 }
             }
@@ -31,21 +30,17 @@ void BellMan(int S, int D){
     }
 
     bool NegativeCycle = false;
-    for (int u = 0; u < V; ++u)
-        if (Dist[u] != inf)
+    for (int u = 0; u < n; ++u){
+        if (dist[u] != inf){
             for (auto to: AdjList[u]){
                 int v = to.first, w = to.second;
-                if (Dist[v] > Dist[u] + w)
+                if (dist[v] > dist[u] + w)
                     NegativeCycle = true;
             }
-    if (NegativeCycle) printf("Tem ciclo negativo.\n");
-    else{
-    for (int u = 0; u < V; ++u)
-        printf("SSSP(%d, %d) = %d\n", S, u, Dist[u]);
+        }
     }
-}
 
-int main(){
-    BellMan(0, 3);
-    return 0;
+    if (NegativeCycle)
+        return -inf;
+    return dist[D];
 }

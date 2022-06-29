@@ -1,58 +1,52 @@
-struct aresta
-{
+const int MAXN = 1e5;
+
+struct aresta{
 	int a, b, p;
+	aresta(){}
+	aresta(int a, int b, int p){a = a; b = b; p = p;}
 };
-bool Comp(aresta a, aresta b)	{ return a.p < b.p; }
+bool Comp(aresta a, aresta b) { return a.p < b.p; }
 
-int pai[sz];
-int Rank[sz];
-vector< aresta > Lis;
-priority_queue< ii, vector<ii>, greater<ii> > myPq;
+int pai[MAXN], Rank[MAXN];
+vector<aresta> Lis;
+vector<int> Ans;
 
-int acha_pai(int X)
-{
-	if	(pai[X] == X)
-		return X;
-	return pai[X] = acha_pai(pai[X]);
+int find_parent(int v){
+    if (pai[v] == v)
+        return v;
+    return pai[v] = find_parent(pai[v]);
 }
 
-void unir(int X, int Y)
-{
-	X = acha_pai(X);
-	Y = acha_pai(Y);
-	if	(Rank[X] > Rank[Y])
-	{
-		pai[Y] = X;
-		Rank[X]++;
-	}
-	else
-	{
-		pai[X] = Y;
-		Rank[Y]++;
-	}
+void unir(int u, int v){
+    int x = find_parent(u);
+    int y = find_parent(v);
+    if (Rank[x] > Rank[y]){
+        ++Rank[x];
+        pai[y] = x;
+    }
+    else{
+        ++Rank[y];
+        pai[x] = y;
+    }
 }
 
-int main()
-{
-	for	(int i = 0; i < 10; i++) pai[i]  = i;
-	for	(int i = 0; i < 10; i++) Rank[i] = 1;
+int main(){
 	aresta Hm;
-	for	(int i = 0; i < 10; i++)
-	{
+	int n, m;
+	cin >> n;
+	for	(int i = 0; i < n; i++) pai[i] = i, Rank[i] = 1;
+	for	(int i = 0; i < m; i++){
 		scanf("%d %d %d", &Hm.a, &Hm.b, &Hm.p);  //Adiciona a aresta a->b com peso p
 		Lis.push_back(Hm);
 	}
 	sort(Lis.begin(), Lis.end(), Comp);
-	
-	vector< aresta > Ans;
+	vector<aresta> Ans;
 	int S = 0;
-	for	(int i = 0; i < 10; i++)
-	{
+	for	(int i = 0; i < m; i++){
 		int X = Lis[i].a;
 		int Y = Lis[i].b;
 		int P = Lis[i].p;
-		if	(acha_pai(X) != acha_pai(Y))
-		{
+		if	(acha_pai(X) != acha_pai(Y)){
 			Ans.push_back(Lis[i]);
 			S += P;
 			unir(X,Y);
@@ -65,22 +59,19 @@ int main()
 
 /*
 * Outra forma
-void Union_Init(int n)
-{
+void Union_Init(int n){
 	for (int i = 0; i <= n; i++)
 		p[i] = i;
 }
 
-int Union_find(int at)
-{
+int Union_find(int at){
 	if (p[at] == at)
 		return at;
 
 	return p[at] = Union_find(p[at]);
 }
 
-void Union_set(int a, int b)
-{
+void Union_set(int a, int b){
 	a = Union_find(a);
 	b = Union_find(b);
 
@@ -88,40 +79,32 @@ void Union_set(int a, int b)
 		p[a] = b;
 }
 
-int main()
-{
+int main(){
 	int m, n;
 
-	while (cin >> n >> m && (n != 0 || m != 0))
-	{
+	while (cin >> n >> m && (n != 0 || m != 0)){
 		int custo_atual = 0;
 
 		priority_queue < pair<int, pair<int, int> > > q;
 
 		// leitura
-		for (int i = 0; i < m; i++)
-		{
+		for (int i = 0; i < m; i++){
 			int x, y, z;
 			cin >> x >> y >> z;
-
 			q.push(pair<int, pair<int, int> >(-z, pair<int, int>(x, y)));
-
 			custo_atual += z;
 		}
 
 		Union_Init(n);
 
 		int custo_melhorado = 0;
-		while (!q.empty())
-		{
+		while (!q.empty()){
 			//descobrir o subconjunto do no 1
 			int a = Union_find(q.top().second.first);
-
 			//descobrir o subconjunto do no 2
 			int b = Union_find(q.top().second.second);
-
 			//se eles forem diferentes
-			if (a != b) {
+			if (a != b){
 				//conecta
 				Union_set(a, b);
 
@@ -133,7 +116,6 @@ int main()
 		}
 
 		int resp = custo_atual - custo_melhorado;
-
 		cout << resp << endl;
 	}
 }
