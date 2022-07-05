@@ -39,6 +39,7 @@ double DEG_to_RAD(double d){ return d*pi/180.0; }
 double RAD_to_DEG(double r){ return r*180.0/pi; }
 
 point rotate(const point &p, double theta){ //CCW
+    if (theta == 90) return point(p.y, -p.x);
     double r = DEG_to_RAD(theta);
     return point(p.x*cos(r) - p.y*sin(r),p.x*sin(r) + p.y*cos(r));
 }
