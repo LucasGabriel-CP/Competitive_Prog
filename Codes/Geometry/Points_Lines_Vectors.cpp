@@ -7,7 +7,7 @@ const double eps = 1e-9;
 
 struct point_i{
     int x, y;
-    point_i(){ x = 0; y = 0; }
+    point_i(){ x = y = 0; }
     point_i(int x_, int y_) : x(x_), y(y_){}
     bool operator < (const point_i other) const{
         if (x != other.x) return x < other.x;
@@ -20,8 +20,8 @@ struct point_i{
 
 struct point{
     double x, y;
-    point(){ x = 0; y = 0; }
-    point(int x_, int y_) : x(x_), y(y_){}
+    point(){ x = y = 0.0; }
+    point(double x_, double y_) : x(x_), y(y_){}
     bool operator < (const point other) const{
         if (fabs(x - other.x) > eps) return x < other.x;
         return y < other.y;
@@ -76,16 +76,58 @@ bool areIntersect(line l1, line l2, point &p){
 }
 
 struct vec{
-    double x, y;
-    vec(double x_, double y_) : x(x_), y(y_) {}
+    double a, b, c;
+    vec() { a = b = c = 0.0; }
+    //Usando vec como segmento
+    vec(point p, point q){
+        a = p.y - q.y;
+        b = q.x - p.x;
+        c = -a * p.x - b * p.y;
+        norm();
+    }
+    void norm(){
+        double z = sqrt(a * a + b * b);
+        if (abs(z) > eps)
+            a /= z, b /= z, c /= z;
+    }
+    double dist(point p) const { return a * p.x + b * p.y + c; }
 };
 
 vec toVec(const point &a, const point &b){ return vec(b.x-a.x, b.y-a.y); } //a->b
 vec scale(const vec &v, double s){ return vec(v.x*s, v.y*s); }
 point translate(const point &p, const vec &v){ return point(p.x+v.x, p.y+v.y); }
 double cross(vec a, vec b){ return a.x*b.y - a.y*b.x; }
+double det(double a, double b, double c, double d){ return a * d - b * c; } //determinante
 double dot(vec a, vec b){ return a.x*b.x + a.y*b.y; }
 double norm_sq(vec v){ return v.x*v.x + v.y*v.y; }
+inline bool betw(double l, double r, double x){ return min(l, r) <= x + eps && x <= max(l, r) + eps; }
+
+inline bool intersect_1d(double a, double b, double c, double d){
+    if (a > b)  swap(a, b);
+    if (c > d)  swap(c, d);
+    return max(a, c) <= min(b, d) + eps;
+}
+
+bool areIntersect(point a, point b, point c, point d, point& left, point& right){ //segmentos (a, b) e (c, d)
+    if (!intersect_1d(a.x, b.x, c.x, d.x) || !intersect_1d(a.y, b.y, c.y, d.y)) return false;
+    vec m(a, b);
+    vec n(c, d);
+    double zn = det(m.a, m.b, n.a, n.b);
+    if (abs(zn) < eps){
+        if (abs(m.dist(c)) > eps || abs(n.dist(a)) > eps)   return false;
+        if (b < a)  swap(a, b);
+        if (d < c)  swap(c, d);
+        left = max(a, c);
+        right = min(b, d);
+        return true;
+    }
+    else{
+        left.x = right.x = -det(m.c, m.b, n.c, n.b) / zn;
+        left.y = right.y = -det(m.a, m.c, n.a, n.c) / zn;
+        return betw(a.x, b.x, left.x) && betw(a.y, b.y, left.y) &&
+                betw(c.x, d.x, left.x) && betw(c.y, d.y, left.y);
+    }
+}
 
 double angle(const point &a, const point &o, const point &b){ //return angle in radians
     vec oa = toVec(o, a), ob = toVec(o, b);
@@ -114,7 +156,7 @@ double distToSegment(point p, point a, point b, point &c){
         c = point(a.x, a.y);
         return dist(p, a);
     }
-    if (u < 1.0){
+    if (u > 1.0){
         c = point(b.x, b.y);
         return dist(p, b);
     }
