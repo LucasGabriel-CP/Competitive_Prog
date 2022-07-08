@@ -76,21 +76,22 @@ bool areIntersect(line l1, line l2, point &p){
 }
 
 struct vec{
-    double a, b, c;
-    vec() { a = b = c = 0.0; }
+    double x, y, z;
+    vec() { x = y = z = 0.0; }
+    vec(double x_, double y_): x(x_), y(y_) { }
     //Usando vec como segmento
     vec(point p, point q){
-        a = p.y - q.y;
-        b = q.x - p.x;
-        c = -a * p.x - b * p.y;
+        x = p.y - q.y;
+        y = q.x - p.x;
+        z = -x * p.x - y * p.y;
         norm();
     }
     void norm(){
-        double z = sqrt(a * a + b * b);
-        if (abs(z) > eps)
-            a /= z, b /= z, c /= z;
+        double z_ = sqrt(x * x + y * y);
+        if (abs(z_) > eps)
+            x /= z_, y /= z_, z /= z_;
     }
-    double dist(point p) const { return a * p.x + b * p.y + c; }
+    double dist(point p) const { return x * p.x + y * p.y + z; }
 };
 
 vec toVec(const point &a, const point &b){ return vec(b.x-a.x, b.y-a.y); } //a->b
@@ -112,7 +113,7 @@ bool areIntersect(point a, point b, point c, point d, point& left, point& right)
     if (!intersect_1d(a.x, b.x, c.x, d.x) || !intersect_1d(a.y, b.y, c.y, d.y)) return false;
     vec m(a, b);
     vec n(c, d);
-    double zn = det(m.a, m.b, n.a, n.b);
+    double zn = det(m.x, m.y, n.x, n.y);
     if (abs(zn) < eps){
         if (abs(m.dist(c)) > eps || abs(n.dist(a)) > eps)   return false;
         if (b < a)  swap(a, b);
@@ -122,8 +123,8 @@ bool areIntersect(point a, point b, point c, point d, point& left, point& right)
         return true;
     }
     else{
-        left.x = right.x = -det(m.c, m.b, n.c, n.b) / zn;
-        left.y = right.y = -det(m.a, m.c, n.a, n.c) / zn;
+        left.x = right.x = -det(m.z, m.y, n.z, n.y) / zn;
+        left.y = right.y = -det(m.x, m.z, n.x, n.z) / zn;
         return betw(a.x, b.x, left.x) && betw(a.y, b.y, left.y) &&
                 betw(c.x, d.x, left.x) && betw(c.y, d.y, left.y);
     }
