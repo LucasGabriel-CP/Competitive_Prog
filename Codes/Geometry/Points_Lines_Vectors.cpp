@@ -11,7 +11,7 @@ struct point_i{
     point_i(int x_, int y_) : x(x_), y(y_){}
     bool operator < (const point_i other) const{
         if (x != other.x) return x < other.x;
-        y < other.y;
+        return y < other.y;
     }
     bool operator == (const point_i other) const{
         return x == other.x && y == other.y;
