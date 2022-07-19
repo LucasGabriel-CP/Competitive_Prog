@@ -26,6 +26,7 @@ public:
         LCP.resize(n);
         idx.assign(n, 0);
         build();
+        computeLCP();
     }
     SuffixArray(const int& n_, const string& Str_, const vector<int>& idx_){
         n = n_;
@@ -34,6 +35,7 @@ public:
         SA.resize(n);
         LCP.resize(n);
         build();
+        computeLCP();
     }
 
     void build(){
@@ -96,9 +98,9 @@ public:
     }
 
     int LCS(int const& t){  //t -> quantidade de strings
-        int maxLCP = -1, i, x, y;
+        int maxLCP = -1, id, i, x, y;
         x = 0; y = 1;
-        vector<int> has(t, 0);
+        vector<int> has(t, 0), ids;
         MinQueue mq;
         int where = idx[SA[x]];
         has[where]++;
@@ -115,12 +117,29 @@ public:
                 mq.push(LCP[y]);
             }
             else{
-                maxLCP = max(maxLCP, mq.min());
+                if (maxLCP < mq.min()){
+                    ids.clear();
+                    ids.push_back(x);
+                    maxLCP = mq.min();
+                    id = x;
+                }
+                else if (maxLCP && maxLCP == mq.min())
+                    ids.push_back(x);
                 where = idx[SA[x++]];
                 has[where]--;
                 mq.pop();
             }
         }
+        if (maxLCP <= 0) return maxLCP;
+        set<string> mySet;
+        for (int &i: ids){
+            string aux = "";
+            for (int j = 0; j < maxLCP; ++j){
+                aux += Str[SA[i] + j];
+            }
+            mySet.insert(aux);
+        }
+        for (string s: mySet) cout << s << '\n';
         return maxLCP;
     }
 
@@ -139,11 +158,11 @@ public:
         for (int i = 0; i < maior; ++i){
             ans += Str[i + SA[id]];
         }
+
         return qnt;
     }
 
     void printSA(){
-        cout << n << '\n';
         for (int i = 0; i < n; ++i){
             cout << "[" << i << "] " << SA[i] << ": " << LCP[i] << " -> ";
             for (int l = SA[i]; l < n; ++l) cout << Str[l];
@@ -154,34 +173,22 @@ public:
 
 int main(){
     ios_base::sync_with_stdio(false); cin.tie(0);
-    string Str1, Str2, T, Aux;
-
-    //Uma string
-    cin >> Str1;
-    Str1 += '$'; //Símbolo com valor menor que o alfabeto
-    T = Str1;
-    int n = (int)T.size();
-    SuffixArray SA1(n, T);
-    SA1.computeLCP();
-    SA1.printSA();
-    cout << "--------\n";
-    //Mais de uma
-    cin >> Str1 >> Str2;
-    Str1 += '$';
-    Str2 += '#';
-    T = Str1;
-    T += Str2;
-    n = (int)T.size();
-    vector<int> idx(n);
-    int k = 0;
-    for(int i = 0; i < n; ++i){
-        idx[i] = k;
-        if (T[i] < 'A') ++k;
+    string T, str1, str2, ans;
+    bool ok = false;
+    while (cin >> str1 >> str2){
+        if (ok) cout << '\n';
+        ok = true;
+        T = str1;
+        T += '$';
+        T += str2;
+        T += '#';
+        vector<int> idx((int)T.size(), 0);
+        for (int i = (int)str1.size() + 1; i < (int)T.size(); ++i) idx[i] = 1;
+        SuffixArray SA((int)T.size(), T, idx);
+        int ans = SA.LCS(2);
+        if (ans <= 0)
+            cout << "No common sequence.\n";
     }
-    SuffixArray SA2(n, T, idx);
-    SA2.computeLCP();
-    SA2.printSA();
-    cout << SA2.LCS(k) << '\n';
 
     return 0;
 }
