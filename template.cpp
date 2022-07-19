@@ -2,6 +2,10 @@
 
 using namespace std;
 
+#ifdef PIZZA
+__attribute__((destructor))static void __destroy__(){std::cerr<<"\nElapsed: "<<(double)clock()/CLOCKS_PER_SEC<<"s.\n";}
+#endif
+
 #define pi 3.141592653589793
 #define LSOne(S) ((int)(S) & -(int)(S))
 #define f first
@@ -16,8 +20,8 @@ using namespace std;
 #define Mid (l + ((r - l) >> 1))
 #define GCD(a_, b_) (__gcd(a_, b_))
 #define LCM(a_, b_) (a_/__gcd(a_, b_)*b_)
-#define filIn freopen("input.txt", "r", (__acrt_iob_func(0)));
-#define filOut freopen("output.txt", "w", (__acrt_iob_func(1)));
+#define filIn freopen("input.txt", "r", stdin); //(__acrt_iob_func(0))
+#define filOut freopen("output.txt", "w", stdout); //(__acrt_iob_func(1))
 #define sz(vet) ((int)(vet).size())
 #define all(vet) (vet).begin(),(vet).end()
 
@@ -42,16 +46,16 @@ typedef pair<int, pair<int, int>> iii;
 typedef pair<char, int> ci;
 typedef pair<string, int> si;
 struct tri {
-  int st, nd, rd;
-  inline tri(): st(), nd(), rd() {}
-  inline tri(int a, int b, int c): st(a), nd(b), rd(c) {}
-  int cmp(const tri& t) {
-    if (st != t.st) return st - t.st;
-    if (nd != t.nd) return nd - t.nd;
-    return rd - t.rd;
-  }
-  inline bool operator<(const tri& t) { return cmp(t) < 0; }
-  inline bool operator==(const tri& t) { return cmp(t) == 0; }
+    int st, nd, rd;
+    inline tri(): st(), nd(), rd() {}
+    inline tri(int a, int b, int c): st(a), nd(b), rd(c) {}
+    int cmp(const tri& t) {
+        if (st != t.st) return st - t.st;
+        if (nd != t.nd) return nd - t.nd;
+        return rd - t.rd;
+    }
+    inline bool operator<(const tri& t) { return cmp(t) < 0; }
+    inline bool operator==(const tri& t) { return cmp(t) == 0; }
 };
 
 typedef vector<int> vi;

@@ -26,6 +26,7 @@ public:
         LCP.resize(n);
         idx.assign(n, 0);
         build();
+        computeLCP();
     }
     SuffixArray(const int& n_, const string& Str_, const vector<int>& idx_){
         n = n_;
@@ -34,6 +35,7 @@ public:
         SA.resize(n);
         LCP.resize(n);
         build();
+        computeLCP();
     }
 
     void build(){
@@ -124,8 +126,26 @@ public:
         return maxLCP;
     }
 
+    int LRS(string& ans){
+        string aux;
+        int id, maior = 0, qnt = 0;
+        for (int i = 0; i < n; ++i){
+            if (maior < LCP[i]){
+                qnt = 2;
+                id = i;
+                maior = LCP[i];
+            }
+            else if (maior && maior == LCP[i] && maior == LCP[i-1]) ++qnt;
+        }
+        ans = "";
+        for (int i = 0; i < maior; ++i){
+            ans += Str[i + SA[id]];
+        }
+
+        return qnt;
+    }
+
     void printSA(){
-        cout << n << '\n';
         for (int i = 0; i < n; ++i){
             cout << "[" << i << "] " << SA[i] << ": " << LCP[i] << " -> ";
             for (int l = SA[i]; l < n; ++l) cout << Str[l];
@@ -136,34 +156,16 @@ public:
 
 int main(){
     ios_base::sync_with_stdio(false); cin.tie(0);
-    string Str1, Str2, T, Aux;
-
-    //Uma string
-    cin >> Str1;
-    Str1 += '$'; //Símbolo com valor menor que o alfabeto
-    T = Str1;
-    int n = (int)T.size();
-    SuffixArray SA1(n, T);
-    SA1.computeLCP();
-    SA1.printSA();
-    cout << "--------\n";
-    //Mais de uma
-    cin >> Str1 >> Str2;
-    Str1 += '$';
-    Str2 += '#';
-    T = Str1;
-    T += Str2;
-    n = (int)T.size();
-    vector<int> idx(n);
-    int k = 0;
-    for(int i = 0; i < n; ++i){
-        idx[i] = k;
-        if (T[i] < 'A') ++k;
+    string ans, str;
+    int c; cin >> c;
+    while(c--){
+        cin >> str;
+        str += '$';
+        SuffixArray SA((int)str.size(), str);
+        int t = SA.LRS(ans);
+        if (ans == "") cout << "No repetitions found!\n";
+        else cout << ans << ' ' << t << '\n';
     }
-    SuffixArray SA2(n, T, idx);
-    SA2.computeLCP();
-    SA2.printSA();
-    cout << SA2.LCS(k) << '\n';
 
     return 0;
 }
