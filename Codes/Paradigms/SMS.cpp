@@ -1,34 +1,24 @@
-int N, Vet[sz];
+int RANGESUM(int n, vector<int> const& vet){
+    int ans = 0, aux = 0;
+    for (int i: vet){
+        if (aux + i >= 0){
+            aux += i;
+            ans = max(aux, ans);
+        }
+        else aux = 0;
+    }
 
-int RANGESUM()		//Para Array 1D, Kadane
-{
-	int Aux = 0, Ans = 0;
-	
-	for (int i = 0; i < N; i++)		//O(N)
-	{
-		if (Aux + Vet[i] >= 0)	//Verifico pra caso a soma >= 0
-		{
-			Aux += Vet[i];
-			Ans = max(Ans, Aux);
-		}
-		else					//Reseto a soma			
-			Aux = 0;
-	}
-
-	return Ans;
+	return ans;
 }
 
 //---------------------------------------------------------------------//
 //Para Arrays 2D, [N x N]
-int main()	//O(N^3) 1D PD + uso do Kadane's
-{
+//O(N^3) 1D PD + uso do Kadane's
+int main(){
 	int Matrix[101][101];	//Menor valor possível = -127
 	int N;	scanf("%d", &N);
-	
-	for (int i = 0; i < N; i++)
-	{
-		for (int j = 0; j < N; j++)
-		{
+	for (int i = 0; i < N; i++){
+		for (int j = 0; j < N; j++){
 			scanf("%d", &Matrix[i][j]);
 			if (j)
 				Matrix[i][j] += Matrix[i][j - 1];	//Adiciona as colunas [i]
@@ -36,13 +26,10 @@ int main()	//O(N^3) 1D PD + uso do Kadane's
 	}
 
 	int maxSub = -127 * 100 * 100;	//Armazenar o menor valor possível
-	for (int l = 0; l < N; l++)
-	{
-		for (int r = l; r < N; r++)
-		{
+	for (int l = 0; l < N; l++){
+		for (int r = l; r < N; r++){
 			int subRec = 0;
-			for (int row = 0; row < N; row++)
-			{	//Calcular o máximo para aquela coluna
+			for (int row = 0; row < N; row++){	//Calcular o máximo para aquela coluna
 				if (l)
 					subRec += Matrix[row][r] - Matrix[row][l - 1];
 				else
