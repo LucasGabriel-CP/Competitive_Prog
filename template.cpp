@@ -4,6 +4,14 @@ using namespace std;
 
 #ifdef PIZZA
 __attribute__((destructor))static void __destroy__(){std::cerr<<"\nElapsed: "<<(double)clock()/CLOCKS_PER_SEC<<"s.\n";}
+#define sleep(x) this_thread::sleep_for(chrono::milliseconds(x))
+#define filIn freopen("input.txt", "r", stdin); //(__acrt_iob_func(0))
+#define filOut freopen("output.txt", "w", stdout); //(__acrt_iob_func(1))
+#else
+#define assert(x) void(0)
+#define filIn void(0)
+#define filOut void(0)
+#define sleep(x) void(0)
 #endif
 
 #define pi 3.141592653589793
@@ -19,9 +27,7 @@ __attribute__((destructor))static void __destroy__(){std::cerr<<"\nElapsed: "<<(
 #define fore(i, v) for (auto &i : v)
 #define Mid (l + ((r - l) >> 1))
 #define GCD(a_, b_) (__gcd(a_, b_))
-#define LCM(a_, b_) (a_/__gcd(a_, b_)*b_)
-#define filIn freopen("input.txt", "r", stdin); //(__acrt_iob_func(0))
-#define filOut freopen("output.txt", "w", stdout); //(__acrt_iob_func(1))
+#define LCM(a_, b_) ((a_/__gcd(a_, b_))*b_)
 #define sz(vet) ((int)(vet).size())
 #define all(vet) (vet).begin(),(vet).end()
 
@@ -30,21 +36,21 @@ template<class T>inline int ub(const vector<T>&v,const T&x,int l=0,int r=-1){ret
 template<class T>inline int lb(const T*v,int n,const T&x,int l=0,int r=-1){return(int)(lower_bound(v+l,v+(r==-1?n:r),x)-v);}
 template<class T>inline int ub(const T*v,int n,const T&x,int l=0,int r=-1){return(int)(upper_bound(v+l,v+(r==-1?n:r),x)-v);}
 
+template<class T>T aabs(T a){return a<0?-a:a;}
 template<class T,class T2>T mmin(T a,T2 b){return a<b?a:b;}
 template<class T,class T2>T mmax(T a,T2 b){return a>b?a:b;}
 template<class T,class ...T2>T mmin(T a,T2 ...b){return mmin(a,mmin(b...));}
 template<class T,class ...T2>T mmax(T a,T2 ...b){return mmax(a,mmax(b...));}
-template<class T>T aabs(T a){return a<0?-a:a;}
+#define abs aabs
 #define min mmin
 #define max mmax
-#define abs aabs
 
-typedef long long ll;
 typedef int no;
+typedef long long ll;
 typedef pair<int, int> ii;
-typedef pair<int, pair<int, int>> iii;
 typedef pair<char, int> ci;
 typedef pair<string, int> si;
+typedef pair<int, pair<int, int>> iii;
 struct tri {
     int st, nd, rd;
     inline tri(): st(), nd(), rd() {}
