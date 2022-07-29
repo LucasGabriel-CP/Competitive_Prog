@@ -1,70 +1,64 @@
-//Range Sum with addition to segments
 #include <bits/stdc++.h>
 
 using namespace std;
 
-#define MAXN 1000055
 #define Mid ((l + r) >> 1)
-
-typedef long long ll;
+#define nil 0
 typedef int no;
 
-int N;
-int lazy[4 * MAXN];
-no Seg[4 * MAXN], Vet[MAXN];
-
-void Modify(no& t, no& a, no& b){ //Fazer a modificação no nó
-    t = a + b;
-}
-
-void Give(int l, int r, ll la, no& t){ //Mandar a preguiça pro nó
-    t += (la * (r - l));
-}
-
-void prop(int id, int l, int r){ //Propagar a preguiça, se houver
-    if (lazy[id]){
-        Give(l, r, lazy[id], Seg[id]);
-        if (l != r){ //Mandar pros filhos
-            lazy[2 * id] += lazy[id];
-            lazy[2 * id + 1] += lazy[id];
+class SegTree{
+private:
+    int n;
+    vector<no> lazy, seg;
+    no modify(no &a, no &b){
+        return a + b;
+    }
+    void push(int id, bool child){
+        no &l = lazy[id];
+        if (l){
+            seg[id] += l;
+            if (child){
+                lazy[2*id] += l;
+                lazy[2*id+1] += l;
+            }
+            l = 0;
         }
-        lazy[id] = 0; //remover preguiça
     }
-}
-
-void build(int id = 1, int l = 0, int r = N){ //[l,r)
-    lazy[id] = 0;
-    if (r - l < 2)
-        Seg[id] = Vet[l];
-    else{
-        build(2 * id, l, Mid);
-        build(2 * id + 1, Mid, r);
-        Modify(Seg[id], Seg[2*id], Seg[2*id+1]);
+    void build(int id, int l, int r, vector<int> const& vet){
+        if(l == r) seg[id] = vet[l];
+        else{
+            build(2*id, l, Mid);
+            build(2*id+1, Mid+1, r);
+            seg[id] = modify(seg[2*id], seg[2*id+1]);
+        }
     }
-}
-
-void Update(int i, int j, int x, int l = 0, int r = N, int id = 1){ //[l,r)
-    if (i <= l && r <= j){//caso esteja no range, atribui a preguiça
-        lazy[id] += x;
-        prop(id, l, r);
-        return;
+    no query(int id, int l, int r, int x, int y){
+        push(id, r-l);
+        if(x > r || y < l)   return nil; //doens't change ans
+        if(l >= x && r <= y) return seg[id];
+        no p1 = query(2*id, l, Mid, x, y);
+        no p2 = query(2*id+1, Mid+1, r, x, y);
+        return modify(p1, p2);
     }
-    prop(id, l, r);
-    if (i >= r || l >= j) return;
-
-    Update(i, j, x, l, Mid, 2 * id);
-    Update(i, j, x, Mid, r, 2 * id + 1);
-
-    Modify(Seg[id], Seg[2 * id], Seg[2 * id + 1]);
-}
-
-no query(int i, int j, int l = 0, int r = N, int id = 1){ //[l,r)
-    if (i >= r || l >= j) return 0;
-    prop(id, l, r);
-    if (i <= l && r <= j) return Seg[id];
-
-    no Op1 = query(i, j, l, Mid, 2 * id);
-    no Op2 = query(i, j, Mid, r, 2 * id + 1);
-    no ans = 0; Modify(ans, Op1, Op2);
-    return ans;
-}
+    void update(int id, int l, int r, int x, int y, no val){
+        push(id, r-l);
+        if(x > r || y < l)  return;
+        if(l >= x && r <= y){
+            lazy[id] = val;
+            push(id, r-l);
+            return;
+        }
+        update(2*id, l, Mid, x, y, val);
+        update(2*id+1, Mid+1, r, x, y, val);
+        seg[id] = modify(seg[2*id], seg[2*id+1]);
+    }
+public:
+    SegTree(vector<int> const& A){
+        n = (int)A.size();
+        seg.resize(4*n);
+        lazy.assign(4*n, 0);
+        build(1, 0, n-1);
+    }
+    no query(int x, int y){ return query(1, 0, n-1, x-1, y-1); }
+    void update(int x, int y, no val){ update(1, 0, n-1, x-1, y-1, val); }
+};

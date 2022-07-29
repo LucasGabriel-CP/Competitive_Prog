@@ -1,61 +1,71 @@
-#define MAX_N 100005
+#include<bits/stdc++.h>
 #define Mid ((l + r) >> 1)
 
-typedef vector< int > vi;
-typedef long long ll;
+using namespace std;
 
-/*
-* Using a index array sorted by Vet[a] < Vet[b]
-* Find the kth value on range [i,j]
-*/
-int N, indx[MAX_N];
-vi Seg[4 * MAX_N]; //4*MAX_N -> Number of nodes
-ll Vet[MAX_N];
+typedef vector<int> vi;
 
-void build(int id = 1, int l = 0, int r = N)
-{
-    if (r - l < 2)  //Range for [l, r)
-    {
-        Seg[id].push_back(indx[l]);  //insert index on the interval
-        return;
+const int maxn = 100003;
+
+int n, vet[maxn], indx[maxn], next_right[maxn];
+vi st[4 * maxn];
+
+void merge(vi& dest, const vi& x, const vi& y) {
+    dest.resize(x.size() + y.size());
+    merge(x.begin(), x.end(), y.begin(), y.end(), dest.begin());
+}
+
+vi& build(int t = 1, int l = 0, int r = n - 1) {
+    if (l == r) st[t] = {vet[l]};
+    else merge(st[t], build(2*t, l, Mid), build(2*t+1, Mid + 1, r));
+    return st[t];
+}
+
+// returns #values < x
+int qry(int i, int j, int x, int t = 1, int l = 0, int r = n - 1) {
+    if (r < i || j < l)     return 0;
+    if (i <= l && r <= j)   return lower_bound(st[t].begin(), st[t].end(), x) - st[t].begin();  // upper_bound for <= x
+    return qry(i, j, x, 2*t, l, Mid) + qry(i, j, x, 2*t+1, Mid + 1, r);
+}
+
+// find the k-th number of a range [l, r] if it was sorted: (check main function)[1]
+//  * create an index array sorted by value: index.sort((i, j) -> value[i] < value[j])
+//  * build the tree using those indexes
+//  * do the following query
+int kth(int i, int j, int k, int t = 1, int l = 0, int r = n - 1) {
+    if (l == r) return st[t][0];
+    int nl = (upper_bound(st[2*t+1].begin(), st[2*t+1].begin(), j) - st[2*t+1].begin())
+            - (lower_bound(st[2*t].begin(), st[2*t].end(), i) - st[2*t].begin());       // #indexes inside range [i, j]
+    if (k <= nl) return kth(i, j, k, 2*t, l, Mid);  // the lowest values are in the left tree
+    return kth(i, j, k - nl, 2*t+1, Mid + 1, r);
+}
+
+// find the number of distinct numbers in a range
+//  * create an next_right array to store next occurence of the element(check main)[2]
+//  * build the tree using the next_array and do the following query
+int qnty(int i, int j, int t = 1, int l = 0, int r = n - 1) {
+    if (r < i || j < l) return 0;
+    if (i <= l && r <= j)
+        return st[t].end() - upper_bound(st[t].begin(), st[t].end(), j);
+    return qnty(i, j, 2*t, l, Mid) + qnty(i, j, 2*t+1, Mid + 1, r);
+}
+
+int main(){
+    //[1]
+    sort(indx, indx + n, [&](int a, int b){ return vet[a] < vet[b]; });
+    //[2]
+    map<int, int> ocur;
+    for (int i = n - 1; i >= 0; i--) {
+        if (!ocur.count(vet[i])){
+            next_right[i] = n;
+            ocur[vet[i]]  = i;
+        }
+        else{
+            next_right[i] = ocur[vet[i]];
+            ocur[vet[i]]  = i;
+        }
     }
-    build(2 * id, l, Mid);
-    build(2 * id + 1, Mid, r);
-    //Merge the node
-    merge(Seg[2 * id].begin(), Seg[2 * id].end(), Seg[2 * id + 1].begin(), Seg[2 * id + 1].end(), back_inserter(Seg[id]));
-}
-
-int Solve(int i, int j, int k, int l = 0, int r = N, int id = 1)
-{
-    if (r - l < 2)
-        return Seg[id][0];  //It'll return the index on the node
-    //Amount of indexes on the range [i, j]
-    int pj = upper_bound(Seg[2 * id].begin(), Seg[2 * id].end(), j) - Seg[2 * id].begin();
-    int pi = lower_bound(Seg[2 * id].begin(), Seg[2 * id].end(), i) - Seg[2 * id].begin();
-    int diff = pj - pi;
-    if (diff >= k)  //if diff is bigger/equal, element is on the left
-        return Solve(i, j, k, l, Mid, 2 * id);
-    return Solve(i, j, k - diff, Mid, r, 2 * id + 1); //element on the right
-}
-
-//query for numbers lower than x
-//build around Vet[i] values insted
-int query(int i, int j, int x, int l = 0, int r = N, int id = 1)
-{
-    if (r < i || j < l)
-        return 0;
-    if (i <= l && r <= j)   //upper_bound if > x
-        return lower_bound(Seg[id].begin(), Seg[id].end(), x) - Seg[id].begin();
-    return query(i, j, x, l, Mid, 2 * id) + query(i, j, x, Mid, r, 2 * id + 1);
-}
-
-int main()
-{
-    sort(indx, indx + N, [](int a, int b) {return Vet[a] < Vet[b]; });
     build();
-    int L, R, Kth;
-    int Elem = Solve(L - 1, R, Kth);
-    printf("%lld\n", Vet[Elem]);
 
     return 0;
 }
