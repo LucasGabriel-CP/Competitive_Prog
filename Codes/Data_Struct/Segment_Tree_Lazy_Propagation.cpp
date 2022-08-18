@@ -27,8 +27,8 @@ private:
     void build(int id, int l, int r, vector<int> const& vet){
         if(l == r) seg[id] = vet[l];
         else{
-            build(2*id, l, Mid);
-            build(2*id+1, Mid+1, r);
+            build(2*id, l, Mid, vet);
+            build(2*id+1, Mid+1, r, vet);
             seg[id] = modify(seg[2*id], seg[2*id+1]);
         }
     }
@@ -57,7 +57,7 @@ public:
         n = (int)A.size();
         seg.resize(4*n);
         lazy.assign(4*n, 0);
-        build(1, 0, n-1);
+        build(1, 0, n-1, A);
     }
     no query(int x, int y){ return query(1, 0, n-1, x-1, y-1); }
     void update(int x, int y, no val){ update(1, 0, n-1, x-1, y-1, val); }
