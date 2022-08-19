@@ -90,12 +90,12 @@ int main(){
             //Read the edges
         }
         int d, k; cin >> d >> k; //All edges with capacity 'k'
-		int source = 0, sink = 2*n+1; //create source to conect initial point and sink final
-		for (edge e: vet){
+        int source = 0, sink = 2*n+1; //create source to conect initial point and sink final
+        for (edge e: vet){
             add(e.from, e.to, k, e.cost);
             add(e.to, e.from, k, e.cost); //undirected graph
-		}
-		//Need flow to be at least 'd'
+        }
+        //Need flow to be at least 'd'
         add(source, 1, d, 0);
         add(n, sink, d, 0);
         ll ans = minCost(n, d, source, sink);
