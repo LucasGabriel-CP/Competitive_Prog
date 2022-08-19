@@ -1,10 +1,10 @@
 vector<pair<int, int>> AdjList[20];
-vector<int> Visit, P;
+vector<int> Visit, parent;
 int n;
 
 int Dijkstra(int O, int D){
 	dist.assign(n, inf);
-	P.assign(n, -1);
+	parent.assign(n, -1);
 
 	priority_queue< ii, vii, greater<ii> > myPq;
 	dist[O] = 0;
@@ -12,13 +12,13 @@ int Dijkstra(int O, int D){
 	while (!myPq.empty()){
 		ii u = myPq.top();
 		myPq.pop();
-		if (Fon.f != dist[Fon.s]) continue;
+		if (u.f != dist[u.s]) continue;
 		for (ii edge : AdjList[u.s]){
 			int v = edge.f;
 			int w = edge.s;
 			if (dist[u.s] + w < dist[v]){
 				dist[v] = dist[u.s] + w;
-				P[v] = u.s;
+				parent[v] = u.s;
 				myPq.push({dist[v], v});
 			}
 		}
@@ -30,7 +30,7 @@ int Dijkstra(int O, int D){
 
 void ConstPath(int t){
 	vi Path;
-	for (int v = t; v != O; v = P[v])
+	for (int v = t; v != O; v = parent[v])
 		Path.push_back(v);
 	Path.push_back(O);
 	for (int i = Path.size() - 1; i > 0; i--)
