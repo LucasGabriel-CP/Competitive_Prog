@@ -1,7 +1,8 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-#define pi M_PI
+
+#define pi acos(-1.0)
 
 const double eps = 1e-9;
 
@@ -162,6 +163,52 @@ double distToSegment(point p, point a, point b, point &c){
         return dist(p, b);
     }
     return distToLine(p, a, b, c);
+}
+
+//Arco com angulo theta (th) = (th/360)*circun.
+//Area do setor = th/360 * AreaCirc
+//Chord = 2 * raio * sin(th/2)
+int insideCircle(const point_i &p, const point_i &c, int r){
+    int dx = p.x - c.x, dy = p.y - c.y;
+    int Euc = dx*dx + dy*dy, rSq = r*r;
+    return Euc < rSq ? 1 : (Euc == rSq ? 0 : -1); //in, border, out
+}
+
+//encontrar 2 centros com pontos que se interse.
+bool circle2PtsRad(point p1, point p2, double r, point &c){
+    double d2 = (p1.x - p2.x)*(p1.x - p2.x) + (pl.y - p2.y)*(p1.y - p2.y);
+    double det = r*r/d2 - 0.25;
+    if (det < EPS) return false;
+    double h = sqrt(det);
+    // to get the other center, reverse p1 and p2
+    c.x = (p1.x+p2.x) * 0.5 + (p1.y—p2.y) * h;
+    c.y = (pl y+p2 y) * 0.5 + (p2.x—p1.x) * h;
+    return true;
+
+}
+
+/*
+           /\
+          / C\
+    (b)  /    \    (a)
+        /      \
+       /        \
+      /A_______ B\
+           (c)
+ */
+// Area = (base*altura) * 0.5
+// Heron's formula: sqrt(s*(s-a)*(s-b)*(s-c)) s -> semi-per
+// dá pra isolar sin(A) = 2*Area/(C*B)
+// c^2 = a^2 + b^2 - 2*a*b*cos(C)
+
+//Area de poligono qualquer pode ser calculado a partir da
+//soma das multiplicações cruzados * 0.5
+double areaConvex(const vector<point> &P){
+    double ans = 0.0;
+    for (int i = 0; i < (int)P.size()-1; ++i){
+        ans += (P[i].x*P[i+1].y - P[i+1].x*P[i].y);
+    }
+    return fabs(ans)*0.5;
 }
 
 int main(){
