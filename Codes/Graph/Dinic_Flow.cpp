@@ -1,72 +1,72 @@
 #include <bits/stdc++.h>
 
-using namespace std;
+struct Flow {
+    static constexpr int INF = (int)1e9;
+    int n;
+    struct Edge {
+        int to, cap;
+        Edge(int to, int cap) : to(to), cap(cap) {}
+    };
 
-#define MAXN 100005
-#define LGN 17
+    std::vector<Edge> edges;
+    std::vector<std::vector<int>> adj;
+    std::vector<int> cur, h;
 
-struct FlowEdge{
-    int v, u;
-    long long cap, flow = 0;
-    FlowEdge(int v, int u, int cap) : v(v), u(u), cap(cap){}
-};
-
-struct Dinic{
-    const long long flow_inf = 1e18;
-    vector<FlowEdge> edges;
-    vector<vector<int>> Adj;
-    vector<int> level, ptr;
-    queue<int> myQ;
-    int n, s, t, m = 0;
-
-    Dinic(int n, int s, int t) : n(n), s(s), t(t){
-        Adj.resize(n); level.resize(n); ptr.resize(n);
-    }
-
-    void add_edge(int v, int u, long long cap){
-        edges.emplace_back(v, u, cap); edges.emplace_back(u, v, 0);
-        Adj[v].push_back(m); Adj[u].push_back(m + 1); m += 2;
-    }
-
-    bool bfs(){
-        while(!myQ.empty()){
-            int v = myQ.front();
-            myQ.pop();
-            for (int id : Adj[v]){
-                if (edges[id].cap - edges[id].flow < 1) continue;
-                if (level[edges[id].u] != -1) continue;
-                level[edges[id].u] = level[id] + 1;
-                myQ.push(edges[id].u);
+    Flow() { n = 0; }
+    Flow(int n) : n(n), adj(n) {}
+    bool bfs(int s, int t) {
+        h.assign(n, -1);
+        std::queue<int> que;
+        h[s] = 0;
+        que.push(s);
+        while (!que.empty()) {
+            int u = que.front();
+            que.pop();
+            for (int i : adj[u]) {
+                auto [v, c] = edges[i];
+                if (c > 0 && h[v] == -1) {
+                    h[v] = h[u] + 1;
+                    if (v == t)
+                        return true;
+                    que.push(v);
+                }
             }
         }
-        return level[t] != -1;
+        return false;
     }
 
-    long long dfs(int v, long long pushed){
-        if (!pushed) return 0;
-        if (v == t) return pushed;
-        for (int& cid = ptr[v]; cid < (int)Adj[v].size(); ++cid){
-            int id = Adj[v][cid];
-            int u = edges[id].u;
-            if (level[v] + 1 != level[u] || edges[id].cap -edges[id].flow < 1) continue;
-            long long tr = dfs(u, min(pushed, edges[id].cap - edges[id].flow));
-            if (!tr) continue;
-            edges[id].flow = tr;
-            edges[id ^ 1].flow -= tr;
-            return tr;
+    int dfs(int u, int t, int f) {
+        if (u == t)
+            return f;
+        int r = f;
+        for (int& i = cur[u]; i < (int)adj[u].size(); ++i) {
+            int j = adj[u][i];
+            auto [v, c] = edges[j];
+            if (c > 0 && h[v] == h[u] + 1) {
+                int a = dfs(v, t, std::min(r, c));
+                edges[j].cap -= a;
+                edges[j ^ 1].cap += a;
+                r -= a;
+                if (r == 0)
+                    return f;
+            }
         }
-        return 0;
+        return f - r;
     }
 
-    long long flow(){
-        long long f = 0;
-        while(true){
-            fill(level.begin(), level.end(), -1);
-            level[s] = 0;
-            if (!bfs()) return f;
-            fill(ptr.begin(), ptr.end(), 0);
-            while(long long pushed = dfs(s, flow_inf)) f += pushed;
+    void addEdge(int u, int v, int c) {
+        adj[u].push_back((int)edges.size());
+        edges.emplace_back(v, c);
+        adj[v].push_back((int)edges.size());
+        edges.emplace_back(u, 0);
+    }
+
+    int maxFlow(int s, int t) {
+        int ans = 0;
+        while (bfs(s, t)) {
+            cur.assign(n, 0);
+            ans += dfs(s, t, INF);
         }
-        return f;
+        return ans;
     }
 };
