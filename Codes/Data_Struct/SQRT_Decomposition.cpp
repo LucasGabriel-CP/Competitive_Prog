@@ -1,7 +1,5 @@
 #include <bits/stdc++.h>
 
-using namespace std;
-
 int vet[(int)2e5+5], blocks[450]; //sqrt(2e5) < 450
 int block_sz;
 
@@ -23,14 +21,14 @@ int query(int l, int r){
 }
 
 int main(){
-    int n, q; cin >> n >> q;
+    int n, q; std::cin >> n >> q;
     block_sz = (int)sqrt(n);
     memset(blocks, 0, sizeof(blocks));
-    for (int i = 0; i < n; i++) cin >> vet[i];
+    for (int i = 0; i < n; i++) std::cin >> vet[i];
     for (int i = 0; i < n; i++) blocks[i/block_sz] += vet[i];
     while(q--){
-        int t, l, r; cin >> t >> l >> r;
+        int t, l, r; std::cin >> t >> l >> r;
         if (t) upd(l-1, r);
-        else cout << query(l , r) << '\n';
+        else std::cout << query(l , r) << '\n';
     }
 }

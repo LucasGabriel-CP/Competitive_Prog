@@ -2,13 +2,10 @@
 //Achar representande de conjuntos
 #include <bits/stdc++.h>
 
-using namespace std;
-
-typedef vector<int> vi;
 
 class UnionFind{
 private:
-    vi p, rank, setSize;
+    std::vector<int> p, rank, setSize;
     int numSets;
 public:
     UnionFind(int N){
@@ -26,7 +23,7 @@ public:
     void unionSet(int i, int j){
         if (isSameSet(i, j)) return;
         int x = findSet(i), y = findSet(j);
-        if (rank[x] > rank[y]) swap(x, y);
+        if (rank[x] > rank[y]) std::swap(x, y);
         p[x] = y;
         if (rank[x] == rank[y]) ++rank[y];
         setSize[y] += setSize[x];

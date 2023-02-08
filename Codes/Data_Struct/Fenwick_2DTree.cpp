@@ -1,6 +1,5 @@
-#define MAXN 1050
-
-int BIT[MAXN][MAXN];
+const int maxn = (int)1e5;
+int BIT[maxn][maxn];
 
 void upd(int x, int y, int N, int val = 1){
     while(x <= N){

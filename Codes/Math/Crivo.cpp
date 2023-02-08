@@ -1,27 +1,26 @@
 #include <bits/stdc++.h>
 
-using namespace std;
-
-#define MAXPRIME 1000000
-bitset< MAXPRIME > isp;
-vector<int> Primes;
+using i64 = long long;
+const int maxprime = (int)1e6;
+std::bitset< maxprime > isp; //only works if < 1e6
+std::vector<int> primes;
 
 void Crivo(){
 	isp.set();
 	isp[0] = isp[1] = 0;
-	for (ll p = 2; p <= MAXPRIME; ++p){
+	for (i64 p = 2; p <= maxprime; ++p){
 		if (isp[p]){
-			for (ll k = 2 * p; k <= MAXPRIME; k += p)
+			for (i64 k = 2 * p; k <= maxprime; k += p)
 				isp[k] = 0;
-			Primes.push_back((int)p);
+			primes.push_back((int)p);
 		}
 	}
 }
 
 bool isprime(int n) {
-    if (n < MAXPRIME) return isp[n];
-    for (int p : Primes) {
-        if ((ll)p * p > n) return 1;
+    if (n < maxprime) return isp[n];
+    for (int p : primes) {
+        if ((i64)p * p > n) return 1;
         if (n % p == 0) return 0;
     }
     assert(0);

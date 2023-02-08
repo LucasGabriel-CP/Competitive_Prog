@@ -3,37 +3,37 @@
 
 using namespace std;
 
-typedef long long ll;
-vector<ll> Primes;
+using i64 = long long;
+vector<i64> primes;
 
 //Number of prime facctors
-ll numPF(int N){
+i64 numPF(int N){
     int ans = 0;
-    for (int i = 0; (i < (int)Primes.size()) && (Primes[i] * Primes[i] <= N); ++i)
-        while(!(N % Primes[i])) { N /= Primes[i]; ++ans; }
+    for (int i = 0; (i < (int)primes.size()) && (primes[i] * primes[i] <= N); ++i)
+        while(!(N % primes[i])) { N /= primes[i]; ++ans; }
     return ans + (N != 1);
 }
 
 //Number of divisors
-ll numDiv(int N){
+i64 numDiv(int N){
     int ans = 1;
-    for (int i = 0; (i < (int)Primes.size()) && (Primes[i] * Primes[i] <= N); ++i){
+    for (int i = 0; (i < (int)primes.size()) && (primes[i] * primes[i] <= N); ++i){
         int Pows = 0;
-        while(!(N % Primes[i])) { N /= Primes[i]; ++Pows; }
+        while(!(N % primes[i])) { N /= primes[i]; ++Pows; }
         ans *= Pows + 1;
     }
     return (N != 1) ? 2 * ans : ans;
 }
 
 //Sum of the divisors
-ll sumDiv(int N){
+i64 sumDiv(int N){
     int ans = 1;
-    for (int i = 0; (i < (int)Primes.size()) && (Primes[i] * Primes[i] <= N); ++i){
-        int Mult = Primes[i], total = 0;
-        while(!(N % Primes[i])) {
-            N /= Primes[i];
+    for (int i = 0; (i < (int)primes.size()) && (primes[i] * primes[i] <= N); ++i){
+        int Mult = primes[i], total = 0;
+        while(!(N % primes[i])) {
+            N /= primes[i];
             total += Mult;
-            Mult *= Primes[i];
+            Mult *= primes[i];
         }
         ans *= total;
     }
@@ -41,18 +41,18 @@ ll sumDiv(int N){
 }
 
 //Count p numbers that are realatively prime to N, p < N
-ll EulerPhi(int N){
+i64 EulerPhi(int N){
     int ans = N;
-    for (int i = 0; (i < (int)Primes.size()) && (Primes[i] * Primes[i] <= N); ++i){
-        if (!(N % Primes[i])) ans -= ans / Primes[i];
-        while(!(N % Primes[i])) { N /= Primes[i]; }
+    for (int i = 0; (i < (int)primes.size()) && (primes[i] * primes[i] <= N); ++i){
+        if (!(N % primes[i])) ans -= ans / primes[i];
+        while(!(N % primes[i])) { N /= primes[i]; }
     }
     return (N != 1) ? ans - ans/N : ans;
 }
 
 int main(){
-    ll Vet[] = {2, 3, 5, 7, 11};
-    Primes = vector<ll>(Vet, Vet + sizeof(Vet)/sizeof(ll));
+    i64 Vet[] = {2, 3, 5, 7, 11};
+    primes = vector<i64>(Vet, Vet + sizeof(Vet)/sizeof(i64));
 
     return 0;
 }

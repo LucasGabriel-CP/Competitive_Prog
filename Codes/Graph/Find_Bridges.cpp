@@ -1,9 +1,11 @@
+#include <bits/stdc++.h>
+
 const int maxn = 1005;
 
 int n, m, timer;
-vector<bool> vis;
-vector<int> AdjList[maxn], tin, low;
-vector<pair<int, int>> Bridge;
+std::vector<bool> vis;
+std::vector<int> AdjList[maxn], tin, low;
+std::vector<std::pair<int, int>> Bridge;
 
 void dfs(int u, int p = -1){
     vis[u] = true;
@@ -11,12 +13,12 @@ void dfs(int u, int p = -1){
     for (int v: AdjList[u]){
         if (v == p) continue;
         if (vis[v])
-            low[u] = min(low[u], tin[v]);
+            low[u] = std::min(low[u], tin[v]);
         else{
             dfs(v, u);
-            low[u] = min(low[u], low[v]);
+            low[u] = std::min(low[u], low[v]);
             if (low[v] > tin[u])
-                Bridge.push_back({min(u, v), max(u, v)});
+                Bridge.push_back({std::min(u, v), std::max(u, v)});
         }
     }
 }

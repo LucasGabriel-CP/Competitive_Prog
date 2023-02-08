@@ -1,9 +1,7 @@
 #include<bits/stdc++.h>
 #define Mid ((l + r) >> 1)
 
-using namespace std;
-
-typedef vector<int> vi;
+typedef std::vector<int> vi;
 
 const int maxn = 100003;
 
@@ -52,9 +50,9 @@ int qnty(int i, int j, int t = 1, int l = 0, int r = n - 1) {
 
 int main(){
     //[1]
-    sort(indx, indx + n, [&](int a, int b){ return vet[a] < vet[b]; });
+    std::sort(indx, indx + n, [&](int a, int b){ return vet[a] < vet[b]; });
     //[2]
-    map<int, int> ocur;
+    std::map<int, int> ocur;
     for (int i = n - 1; i >= 0; i--) {
         if (!ocur.count(vet[i])){
             next_right[i] = n;

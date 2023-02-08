@@ -1,16 +1,19 @@
-int N, M, Timer;
-vector<bool> Visit;
-vi AdjList[10050], tin, low;
-set<int> Cut;
+#include<bits/stdc++.h>
+
+int n, m, timer;
+
+std::vector<bool> vis;
+std::vector<bool> AdjList[10050], tin, low;
+std::set<int> Cut;
 
 void DFS(int u, int p = -1){
-	Visit[u] = true;
-	tin[u] = low[u] = Timer++;
+	vis[u] = true;
+	tin[u] = low[u] = timer++;
 	int children = 0;
 	for (int v : AdjList[u]){
-		if (to == p)
+		if (v == p)
             continue;
-		if (Visit[v])
+		if (vis[v])
 			low[u] = min(low[u], tin[v]);
 		else{
 			DFS(v, u);
@@ -24,13 +27,13 @@ void DFS(int u, int p = -1){
 }
 
 void FindAtCut(){
-	Timer = 0;
-	Visit.assign(N, false);
-	tin.assign(N, -1);
-	low.assign(N, -1);
+	timer = 0;
+	vis.assign(n, false);
+	tin.assign(n, -1);
+	low.assign(n, -1);
 
-	for (int i = 0; i < N; i++){
-		if (!Visit[i])
+	for (int i = 0; i < n; i++){
+		if (!vis[i])
 			DFS(i);
 	}
 }

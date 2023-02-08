@@ -1,7 +1,5 @@
 #include<bits/stdc++.h>
 
-using namespace std;
-
 struct Node {
     Node* left = NULL;
     Node* right = NULL;
@@ -87,21 +85,21 @@ struct BinTree{
 
         return true;
     }
-    void preOrd(Node* P, vector<int> &vet){
+    void preOrd(Node* P, std::vector<int> &vet){
         if (P){
             vet.push_back(P->key);
             preOrd(P->left, vet);
             preOrd(P->right, vet);
         }
     }
-    void inOrd(Node* P, vector<int> &vet){
+    void inOrd(Node* P, std::vector<int> &vet){
         if (P){
             inOrd(P->left, vet);
             vet.push_back(P->key);
             inOrd(P->right, vet);
         }
     }
-    void posOrd(Node* P, vector<int> &vet){
+    void posOrd(Node* P, std::vector<int> &vet){
         if (P){
             posOrd(P->left, vet);
             posOrd(P->right, vet);

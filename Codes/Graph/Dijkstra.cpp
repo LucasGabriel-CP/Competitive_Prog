@@ -1,38 +1,40 @@
-vector<pair<int, int>> AdjList[20];
-vector<int> Visit, parent;
+#include<bits/stdc++.h>
+
+const int inf = (int)1e8;
+std::vector<std::pair<int, int>> AdjList[20];
+std::vector<int> dist, parent;
 int n;
 
 int Dijkstra(int O, int D){
 	dist.assign(n, inf);
 	parent.assign(n, -1);
 
-	priority_queue< ii, vii, greater<ii> > myPq;
+	std::priority_queue< std::pair<int, int>, std::vector<std::pair<int, int>>,
+						std::greater<std::pair<int, int>> > myPq;
 	dist[O] = 0;
 	myPq.push({0, O});
 	while (!myPq.empty()){
-		ii u = myPq.top();
+		auto [d, u] = myPq.top();
 		myPq.pop();
-		if (u.f != dist[u.s]) continue;
-		for (ii edge : AdjList[u.s]){
-			int v = edge.f;
-			int w = edge.s;
-			if (dist[u.s] + w < dist[v]){
-				dist[v] = dist[u.s] + w;
-				parent[v] = u.s;
+		if (d > dist[u]) continue;
+		for (auto[v, w]: AdjList[u]){
+			if (d + w < dist[v]){
+				dist[v] = d + w;
+				parent[v] = u;
 				myPq.push({dist[v], v});
 			}
 		}
 	}
 
-	ConstPath(D);
+	ConstPath(O, D);
 	return dist[D];
 }
 
-void ConstPath(int t){
-	vi Path;
-	for (int v = t; v != O; v = parent[v])
+void ConstPath(int o, int t){
+	std::vector<int> Path;
+	for (int v = t; v != o; v = parent[v])
 		Path.push_back(v);
-	Path.push_back(O);
+	Path.push_back(o);
 	for (int i = Path.size() - 1; i > 0; i--)
 		printf("%d ", Path[i] + 1);
 	printf("%d\n", Path[t] + 1);

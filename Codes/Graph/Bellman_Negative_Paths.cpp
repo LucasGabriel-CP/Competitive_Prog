@@ -1,15 +1,12 @@
 #include <bits/stdc++.h>
 
-using namespace std;
+typedef std::vector<int> vi;
+typedef std::vector<std::pair<int, int>> vii;
 
-typedef vector<int> vi;
-typedef vector<pair<int, int>> vii;
-
-const int MAXN = (int)1e5
-const int inf = (int)1e9
+const int maxn = (int)1e5, inf = (int)1e9;
 
 int n;
-vii AdjList[MAXN];
+vii AdjList[maxn];
 
 int BellMan(int S, int D){
     vi dist(n, inf); dist[S] = 0;

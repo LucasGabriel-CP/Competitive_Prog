@@ -1,20 +1,17 @@
 #include <bits/stdc++.h>
 
-using namespace std;
-
 #define pi acos(-1.0)
-
 const double eps = 1e-9;
 
 struct point_i{
     int x, y;
     point_i(){ x = y = 0; }
     point_i(int x_, int y_) : x(x_), y(y_){}
-    bool operator < (const point_i other) const{
+    bool operator < (const point_i& other) const{
         if (x != other.x) return x < other.x;
         return y < other.y;
     }
-    bool operator == (const point_i other) const{
+    bool operator == (const point_i& other) const{
         return x == other.x && y == other.y;
     }
 };
@@ -23,11 +20,11 @@ struct point{
     double x, y;
     point(){ x = y = 0.0; }
     point(double x_, double y_) : x(x_), y(y_){}
-    bool operator < (const point other) const{
+    bool operator < (const point& other) const{
         if (fabs(x - other.x) > eps) return x < other.x;
         return y < other.y;
     }
-    bool operator == (const point other) const{
+    bool operator == (const point& other) const{
         return fabs(x - other.x) > eps && fabs(y - other.y) > eps;
     }
 };
@@ -102,12 +99,12 @@ double cross(vec a, vec b){ return a.x*b.y - a.y*b.x; }
 double det(double a, double b, double c, double d){ return a * d - b * c; } //determinante
 double dot(vec a, vec b){ return a.x*b.x + a.y*b.y; }
 double norm_sq(vec v){ return v.x*v.x + v.y*v.y; }
-inline bool betw(double l, double r, double x){ return min(l, r) <= x + eps && x <= max(l, r) + eps; }
+inline bool betw(double l, double r, double x){ return std::min(l, r) <= x + eps && x <= std::max(l, r) + eps; }
 
 inline bool intersect_1d(double a, double b, double c, double d){
-    if (a > b)  swap(a, b);
-    if (c > d)  swap(c, d);
-    return max(a, c) <= min(b, d) + eps;
+    if (a > b)  std::swap(a, b);
+    if (c > d)  std::swap(c, d);
+    return std::max(a, c) <= std::min(b, d) + eps;
 }
 
 bool areIntersect(point a, point b, point c, point d, point& left, point& right){ //segmentos (a, b) e (c, d)
@@ -117,10 +114,10 @@ bool areIntersect(point a, point b, point c, point d, point& left, point& right)
     double zn = det(m.x, m.y, n.x, n.y);
     if (abs(zn) < eps){
         if (abs(m.dist(c)) > eps || abs(n.dist(a)) > eps)   return false;
-        if (b < a)  swap(a, b);
-        if (d < c)  swap(c, d);
-        left = max(a, c);
-        right = min(b, d);
+        if (b < a)  std::swap(a, b);
+        if (d < c)  std::swap(c, d);
+        left = std::max(a, c);
+        right = std::min(b, d);
         return true;
     }
     else{
@@ -176,13 +173,13 @@ int insideCircle(const point_i &p, const point_i &c, int r){
 
 //encontrar 2 centros com pontos que se interse.
 bool circle2PtsRad(point p1, point p2, double r, point &c){
-    double d2 = (p1.x - p2.x)*(p1.x - p2.x) + (pl.y - p2.y)*(p1.y - p2.y);
+    double d2 = (p1.x - p2.x)*(p1.x - p2.x) + (p1.y - p2.y)*(p1.y - p2.y);
     double det = r*r/d2 - 0.25;
-    if (det < EPS) return false;
+    if (det < eps) return false;
     double h = sqrt(det);
     // to get the other center, reverse p1 and p2
-    c.x = (p1.x+p2.x) * 0.5 + (p1.y—p2.y) * h;
-    c.y = (pl y+p2 y) * 0.5 + (p2.x—p1.x) * h;
+    c.x = (p1.x + p2.x) * 0.5 + (p1.y + p2.y) * h;
+    c.y = (p1.y + p2.y) * 0.5 + (p2.x + p1.x) * h;
     return true;
 
 }
@@ -198,12 +195,12 @@ bool circle2PtsRad(point p1, point p2, double r, point &c){
  */
 // Area = (base*altura) * 0.5
 // Heron's formula: sqrt(s*(s-a)*(s-b)*(s-c)) s -> semi-per
-// dá pra isolar sin(A) = 2*Area/(C*B)
+// dï¿½ pra isolar sin(A) = 2*Area/(C*B)
 // c^2 = a^2 + b^2 - 2*a*b*cos(C)
 
 //Area de poligono qualquer pode ser calculado a partir da
-//soma das multiplicações cruzados * 0.5
-double areaConvex(const vector<point> &P){
+//soma das multiplicacoes cruzados * 0.5
+double areaConvex(const std::vector<point> &P){
     double ans = 0.0;
     for (int i = 0; i < (int)P.size()-1; ++i){
         ans += (P[i].x*P[i+1].y - P[i+1].x*P[i].y);
