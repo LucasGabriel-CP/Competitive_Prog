@@ -1,10 +1,8 @@
 #include <bits/stdc++.h>
 
-using namespace std;
-
 #ifdef PIZZA
 __attribute__((destructor))static void __destroy__(){std::cerr<<"\nElapsed: "<<(double)clock()/CLOCKS_PER_SEC<<"s.\n";}
-#define sleep(x) this_thread::sleep_for(chrono::milliseconds(x))
+#define sleep(x) std::this_thread::sleep_for(std::chrono::milliseconds(x))
 #define filIn freopen("input.txt", "r", stdin); //(__acrt_iob_func(0))
 #define filOut freopen("output.txt", "w", stdout); //(__acrt_iob_func(1))
 #else
@@ -31,8 +29,10 @@ __attribute__((destructor))static void __destroy__(){std::cerr<<"\nElapsed: "<<(
 #define sz(vet) ((int)(vet).size())
 #define all(vet) (vet).begin(),(vet).end()
 
-template<class T>inline int lb(const vector<T>&v,const T&x,int l=0,int r=-1){return(int)(lower_bound(v.begin()+l,(r==-1?v.end():v.begin()+r),x)-v.begin());}
-template<class T>inline int ub(const vector<T>&v,const T&x,int l=0,int r=-1){return(int)(upper_bound(v.begin()+l,(r==-1?v.end():v.begin()+r),x)-v.begin());}
+using i64 = long long;
+
+template<class T>inline int lb(const std::vector<T>&v,const T&x,int l=0,int r=-1){return(int)(lower_bound(v.begin()+l,(r==-1?v.end():v.begin()+r),x)-v.begin());}
+template<class T>inline int ub(const std::vector<T>&v,const T&x,int l=0,int r=-1){return(int)(upper_bound(v.begin()+l,(r==-1?v.end():v.begin()+r),x)-v.begin());}
 template<class T>inline int lb(const T*v,int n,const T&x,int l=0,int r=-1){return(int)(lower_bound(v+l,v+(r==-1?n:r),x)-v);}
 template<class T>inline int ub(const T*v,int n,const T&x,int l=0,int r=-1){return(int)(upper_bound(v+l,v+(r==-1?n:r),x)-v);}
 
@@ -45,12 +45,10 @@ template<class T,class ...T2>T mmax(T a,T2 ...b){return mmax(a,mmax(b...));}
 #define min mmin
 #define max mmax
 
-typedef int no;
-typedef long long ll;
-typedef pair<int, int> ii;
-typedef pair<char, int> ci;
-typedef pair<string, int> si;
-typedef pair<int, pair<int, int>> iii;
+typedef std::pair<int, int> ii;
+typedef std::pair<char, int> ci;
+typedef std::pair<std::string, int> si;
+typedef std::pair<int, std::pair<int, int>> iii;
 struct tri {
     int st, nd, rd;
     inline tri(): st(), nd(), rd() {}
@@ -64,17 +62,17 @@ struct tri {
     inline bool operator==(const tri& t) { return cmp(t) == 0; }
 };
 
-typedef vector<int> vi;
-typedef vector<long> vl;
-typedef vector<char> vc;
-typedef vector<pair<int, int>> vii;
-typedef vector<pair<int, pair<int, int>>> viii;
-typedef vector<vector<int>> vvi;
+typedef std::vector<int> vi;
+typedef std::vector<long> vl;
+typedef std::vector<char> vc;
+typedef std::vector<std::pair<int, int>> vii;
+typedef std::vector<std::pair<int, std::pair<int, int>>> viii;
+typedef std::vector<std::vector<int>> vvi;
 
 const int inf = (int)1e9;
 const int inf64 = (int)4e18;
 const int LGN = 17;
-const int MAXN = 100005;
+const int maxn = 100005;
 const int mod = 1000000007;
 const double eps = 1e-9;
 
@@ -83,11 +81,12 @@ void solve(){
 }
 
 int main(){
-    ios_base::sync_with_stdio(false); cin.tie(0);
-    int t = 1;
-    cin >> t;
-    while(t--)
+    std::ios_base::sync_with_stdio(false); std::cin.tie(nullptr);
+    int tc = 1;
+    std::cin >> tc;
+    while(tc--){
         solve();
-
+    }
+    
     return 0;
 }
