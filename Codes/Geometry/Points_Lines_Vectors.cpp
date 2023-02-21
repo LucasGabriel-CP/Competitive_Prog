@@ -3,16 +3,23 @@
 #define pi acos(-1.0)
 const double eps = 1e-9;
 
+double DEG_to_RAD(double d){ return d*pi/180.0; }
+double RAD_to_DEG(double r){ return r*180.0/pi; }
+
 struct point_i{
     int x, y;
     point_i(){ x = y = 0; }
-    point_i(int x_, int y_) : x(x_), y(y_){}
-    bool operator < (const point_i& other) const{
-        if (x != other.x) return x < other.x;
-        return y < other.y;
+    point_i(int x_, int y_) : x(x_), y(y_){ }
+    friend bool operator < (const point_i& lhs, const point_i& rhs){
+        if (lhs.x != rhs.x) return lhs.x < rhs.x;
+        return lhs.y < rhs.y;
     }
-    bool operator == (const point_i& other) const{
-        return x == other.x && y == other.y;
+    friend bool operator > (const point_i& lhs, const point_i& rhs){
+        if (lhs.x != rhs.x) return lhs.x > rhs.x;
+        return lhs.y > rhs.y;
+    }
+    friend bool operator == (const point_i& lhs, const point_i& rhs){
+        return (lhs.x == rhs.x) && (lhs.y == rhs.y);
     }
 };
 
@@ -20,12 +27,23 @@ struct point{
     double x, y;
     point(){ x = y = 0.0; }
     point(double x_, double y_) : x(x_), y(y_){}
-    bool operator < (const point& other) const{
-        if (fabs(x - other.x) > eps) return x < other.x;
-        return y < other.y;
+    void rotate(double theta){ //CCW
+        if (theta == 90) x *= -1;
+        double r = DEG_to_RAD(theta);
+        double temp = x;
+        x = x * cos(r) - y * sin(r);
+        y = temp * sin(r) + y * cos(r);
     }
-    bool operator == (const point& other) const{
-        return fabs(x - other.x) > eps && fabs(y - other.y) > eps;
+    friend bool operator < (const point& lhs, const point& rhs){
+        if (fabs(lhs.x - rhs.x) > eps) return lhs.x < rhs.x;
+        return lhs.y < rhs.y;
+    }
+    friend bool operator > (const point& lhs, const point& rhs){
+        if (fabs(lhs.x - rhs.x) > eps) return lhs.x > rhs.x;
+        return lhs.y > rhs.y;
+    }
+    friend bool operator == (const point& lhs, const point& rhs){
+        return (fabs(lhs.x - rhs.x) < eps) && fabs(lhs.y - rhs.y) < eps;
     }
 };
 
@@ -33,40 +51,37 @@ double dist(const point &p1, const point &p2){
     return sqrt((p1.x - p2.x)*(p1.x - p2.x) + (p1.y - p2.y)*(p1.y - p2.y));
 }
 
-double DEG_to_RAD(double d){ return d*pi/180.0; }
-double RAD_to_DEG(double r){ return r*180.0/pi; }
-
-point rotate(const point &p, double theta){ //CCW
-    if (theta == 90) return point(p.y, -p.x);
-    double r = DEG_to_RAD(theta);
-    return point(p.x*cos(r) - p.y*sin(r),p.x*sin(r) + p.y*cos(r));
-}
-
 struct line{
     double a, b, c;
+    line(){ }
+    //points to line
+    line(double const &a_, double const &b_, double const &c_) : a(a_), b(b_), c(c_){ }
+    line(const point &p1, const point &p2){
+        if (fabs(p1.x - p2.x) < eps){
+            a = 1.0; b = 0.0; c = -p1.x;//b = 0.0 -> vertical
+        }
+        else{
+            a = -(double)(p1.y-p2.y)/(p1.x-p2.x);
+            b = 1.0;
+            c = -(double)(a*p1.x)-p1.y;
+        }
+    }
+    //slope
+    line(const point &p, double slope){
+        a = -slope;
+        b = 1.0;
+        c = -((a*p.x) + (b*p.y));
+    }
+    bool parallel(const line &l2){
+        return (fabs(a - l2.a) < eps) && (fabs(b - l2.b) < eps);
+    }
+    friend bool operator == (line& lhs, const line& rhs){
+        return lhs.parallel(rhs) && (fabs(lhs.c-rhs.c) < eps);
+    }
 };
 
-void pointsToLine(const point &p1, const point &p2, line &l){
-    if (fabs(p1.x - p2.x) < eps) l = {1.0, 0.0, -p1.x}; //b = 0.0 -> vertical
-    else l = {-(double)(p1.y-p2.y)/(p1.x-p2.x), 1.0, -(double)(l.a*p1.x)-p1.y};
-}
-
-void slopeToLine(const point &p, double slope, line &l){
-    l.a = -slope;
-    l.b = 1.0;
-    l.c = -((l.a*p.x) + (l.b*p.y));
-}
-
-bool areParallel(line l1, line l2){
-    return (fabs(l1.a-l2.a) < eps) && (fabs(l1.b-l2.b) < eps);
-}
-
-bool areSame(line l1, line l2){
-    return areParallel(l1, l2) && (fabs(l1.c-l2.c) < eps);
-}
-
 bool areIntersect(line l1, line l2, point &p){
-    if(areParallel(l1, l2)) return false;
+    if(l1.parallel(l2)) return false;
     p.x = (l2.b*l1.c - l1.b*l2.c)/(l2.a*l1.b - l1.a*l2.b);
     if (fabs(l1.b) > eps) p.y = -(l1.a*p.x + l1.c);
     else p.y = -(l2.a*p.x + l2.c);
@@ -195,7 +210,7 @@ bool circle2PtsRad(point p1, point p2, double r, point &c){
  */
 // Area = (base*altura) * 0.5
 // Heron's formula: sqrt(s*(s-a)*(s-b)*(s-c)) s -> semi-per
-// d� pra isolar sin(A) = 2*Area/(C*B)
+// da pra isolar sin(A) = 2*Area/(C*B)
 // c^2 = a^2 + b^2 - 2*a*b*cos(C)
 
 //Area de poligono qualquer pode ser calculado a partir da
@@ -209,6 +224,7 @@ double areaConvex(const std::vector<point> &P){
 }
 
 int main(){
+    line l;
 
     return 0;
 }
