@@ -4,20 +4,20 @@ using namespace std;
 
 const int MAXN = 305;
 const long long inf64 = (long long)1e18;
-typedef long long ll;
+using i64 = long long;
 
 struct edge{
     int from, to;
-    ll cap, cost;
+    i64 cap, cost;
     edge(){}
-    edge(int f, int t, ll cap_, ll c){ from = f; to = t; cap = cap_; cost = c; }
+    edge(int f, int t, i64 cap_, i64 c){ from = f; to = t; cap = cap_; cost = c; }
 };
 
 vector<int> adj[MAXN];
 vector<edge> edges;
 bool inq[MAXN];
 int p[MAXN];
-ll d[MAXN];
+i64 d[MAXN];
 
 bool sssp(int source, int sink){
     for (int i = 0; i < MAXN; i++) d[i] = inf64;
@@ -45,7 +45,7 @@ bool sssp(int source, int sink){
     return d[sink] != inf64;
 }
 
-void add(int from, int to, int c, ll custo){
+void add(int from, int to, int c, i64 custo){
     edges.emplace_back(from, to, c, custo);
     edges.emplace_back(to, from, 0, -custo);
     //represent back edge as the next idx
@@ -55,10 +55,10 @@ void add(int from, int to, int c, ll custo){
 
 //O((N^2)(M^2)) with bellmanford/spaf
 //O((N^3)M) with dijkstra
-ll minCost(int n, ll k, int source, int sink){
-    ll flow = 0, custo = 0;
+i64 minCost(int n, i64 k, int source, int sink){
+    i64 flow = 0, custo = 0;
     while(flow < k && sssp(source, sink)){
-        ll f = inf64;
+        i64 f = inf64;
         int cur = p[sink];
         while(cur != -1){
             f = min(f, edges[cur].cap);
@@ -98,7 +98,7 @@ int main(){
         //Need flow to be at least 'd'
         add(source, 1, d, 0);
         add(n, sink, d, 0);
-        ll ans = minCost(n, d, source, sink);
+        i64 ans = minCost(n, d, source, sink);
         if (ans == -1) cout << "impossivel\n\n";
         else cout << ans << "\n\n";
     }

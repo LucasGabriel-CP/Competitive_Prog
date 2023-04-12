@@ -1,15 +1,17 @@
 #include<bits/stdc++.h>
 
+template<typename T>
 struct Node {
     Node* left = NULL;
     Node* right = NULL;
-    int key;
-    Node(int val){ key = val; }
+    T key;
+    Node(T val){ key = val; }
 };
 
+template<typename T>
 struct BinTree{
     Node* root = NULL;
-    void insert(Node** R, int val){
+    void insert(Node** R, T val){
         if (!(*R))
             *R = new Node(val);
         else
@@ -18,14 +20,14 @@ struct BinTree{
             else
                 insert(&(*R)->right, val);
     }
-    bool busca(Node** R, int val){
+    bool busca(Node** R, T val){
         if (!(*R)) return false;
         if ((*R)->key == val) return true;
         if ((*R)->key > val)
             return busca(&(*R)->left, val);
         return busca(&(*R)->right, val);
     }
-    bool delAnt(Node **P, int val){
+    bool delAnt(Node **P, T val){
         if (!(*P))
             return false;
         if ((*P)->key > val)
@@ -55,7 +57,7 @@ struct BinTree{
 
         return true;
     }
-    bool delSuc(Node **P, int val){
+    bool delSuc(Node **P, T val){
         if (!(*P))
             return false;
         if ((*P)->key > val)
@@ -85,21 +87,21 @@ struct BinTree{
 
         return true;
     }
-    void preOrd(Node* P, std::vector<int> &vet){
+    void preOrd(Node* P, std::vector<T> &vet){
         if (P){
             vet.push_back(P->key);
             preOrd(P->left, vet);
             preOrd(P->right, vet);
         }
     }
-    void inOrd(Node* P, std::vector<int> &vet){
+    void inOrd(Node* P, std::vector<T> &vet){
         if (P){
             inOrd(P->left, vet);
             vet.push_back(P->key);
             inOrd(P->right, vet);
         }
     }
-    void posOrd(Node* P, std::vector<int> &vet){
+    void posOrd(Node* P, std::vector<T> &vet){
         if (P){
             posOrd(P->left, vet);
             posOrd(P->right, vet);
