@@ -81,6 +81,7 @@ natsukashiku naru konna itami mo kangei jan
 /*--------------------------------------------Compiler-Options-------------------------------------------------------------------------------------------------*/
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
+//#pragma GCC target("avx2", "popcnt")
 
 #ifdef PIZZA
 #define sleep(x) std::this_thread::sleep_for(std::chrono::milliseconds(x))
@@ -104,11 +105,11 @@ template<typename X, typename...Y> void dbg(X x, Y...y) { std::cerr << ' ' << x;
 #define rforr(i, l, r) for (int i = (int)(l); i >= (int)(r); --i)
 #define fore(i, v) for (auto &i : v)
 #define Mid (l + ((r - l) >> 1))
-#define sz(var) ((int)(var).size())
-#define all(var) (var).begin(),(var).end()
+#define sz(var_) ((int)(var_).size())
+#define all(var_) (var_).begin(),(var_).end()
 
 #define rand() uid(rng)
-std::mt19937 rng(std::chrono::high_resolution_clock::now().time_since_epoch().count()); // i64 = mt19937_64
+std::mt19937 rng(std::chrono::high_resolution_clock::now().time_since_epoch().count()); // ll = mt19937_64
 std::uniform_int_distribution<int> uid(0, std::numeric_limits<int>::max());             // range
 
 /*-----------------------------------------------Templates-----------------------------------------------------------------------------------------------------*/
@@ -137,6 +138,10 @@ const int inf = (int)1e9, LGN = 20, maxn = (int)2e5 + 5, mod = 1000000007;
 const i64 inf64 = (i64)4e18;
 const double eps = 1e-9;
 
+void solve(){
+
+}
+
 int main(){
     std::ios_base::sync_with_stdio(false); std::cin.tie(nullptr);
     int tc = 1;
@@ -147,5 +152,9 @@ int main(){
         // std::cout << (solve() ? "Yes\n" : "No\n");
     }
     
+#ifdef PIZZA
+    std::cerr << "\nElapsed: " << (double)clock() / CLOCKS_PER_SEC << "s.\n";
+#endif
+
     return 0;
 }
