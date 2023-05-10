@@ -2,8 +2,6 @@
 
 using i64 = long long;
 
-constexpr int mod = 998244353;
-
 template<class T>
 T power(T x, i64 n) {
     T res = 1;
@@ -110,11 +108,8 @@ struct Mint {
     }
 };
 
+constexpr int mod = 998244353;
 using U = Mint<mod>;
-
-U Fermat(U a){
-    return power(a, mod - 2);
-}
 
 const int maxn = (int)1e5;
 U fact[maxn];
@@ -125,9 +120,5 @@ U C(int n, int k){
 }
 
 int main(){
-    fact[0] = 1;
-    for(int i = 1; i < maxn; ++i)
-        fact[i] = fact[i-1] * i;
-
 
 }
