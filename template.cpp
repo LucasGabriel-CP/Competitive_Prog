@@ -1,77 +1,12 @@
 /*
-AGAIN
-Fullmetal Alchemist
-yume no tsuzuki oikaketeita hazu nano ni
-magarikunetta hosoi michi hito ni tsumazuku
-ano koro mitai nitte modoritai wake janai no
-nakushite kita sora wo sagashiteru
- 
-wakatte kuremasu youni gisei ni natta youna
-kanashii kao wa yamete yo
- 
-tsumi no saigo wa namida janai yo
-zutto kurushiku seottekunda
-deguchi mienai kanjou meiro ni
-dare wo matteru no?
- 
-shiroi nooto ni tsuzutta youni
-motto sunao ni hakidashitai yo
-nani kara nogaretainda
- 
-genjitsu tte yatsu?
- 
-kanaeru tame ni ikiterundatte
-wasurechai sou na yoru no manaka
-bunan ni nante yatterarenai kara
-kaeru basho mo nai no
- 
-kono omoi wo keshite shimau niwa
-mada jinsei nagai desho (I'm on the way)
-natsukashiku naru
-konna itami mo kangei jan
- 
-ayamaranakucha ikenai yo ne ah, gomen ne
-umaku ienakute shinpai kaketa mama datta ne
-ano hi kakaeta zenbu ashita kakaeru zenbu
-junban tsuketari wa shinaikara
- 
-wakatte kuremasu you ni sotto me wo tojitanda
-mitakunaimono made miendamon
- 
-iranai uwasa ni chotto
-hajimete kiku hatsugen docchi
-nikai attara tomodachi datte uso wa yamete ne
- 
-akai haato ga iradatsu you ni
-karadan naka moeteirunda
-honto wa kitai shiten no
- 
-genjitsu tte yatsu?
- 
-kanaeru tame ni ikiterundatte sakebitaku naru yo kikoete imasu ka?
-bunan ni nante yatterarenai kara
-kaeru basho mo nai no
-yasashisa niwa itsumo kansha shiteru dakara tsuyoku naritai
-(I'm on the way)
-susumu tame ni teki mo mikata mo kangei jan
- 
-dou yatte tsugi no doa akerundakke? kangaeteru?
-mou hikikaesenai monogatari hajimatterunda
-me wo samase
-me wo samase
- 
-kono omoi wo keshite shimau niwa
-mada jinsei nagai desho?
-yarinokoshiteru koto
-yarinaoshite mitai kara
-mou ichido yukou
- 
-kanaeru tame ni ikiterundatte sakebitaku naru yo kikoete imasu ka?
-bunan ni nante yatterarenai kara
-kaeru basho mo nai no
-yasashisa niwa itsumo kansha shiteru dakara tsuyoku naritai
-(I'm on the way)
-natsukashiku naru konna itami mo kangei jan
+
+|￣￣￣￣￣￣￣ |  
+|    Pizza     |
+|＿＿＿＿＿ _＿_|
+(\__/) || 
+(•ㅅ•) || 
+/ 　 づ
+
 */
 
 #include <bits/stdc++.h>
