@@ -3,96 +3,123 @@
 using i64 = long long;
 
 constexpr int mod = 998244353;
-// assume -mod <= x < 2mod
-int norm(int x) {
-    if (x < 0) {
-        x += mod;
-    }
-    if (x >= mod) {
-        x -= mod;
-    }
-    return x;
-}
 
 template<class T>
-T power(T a, i64 b) {
+T power(T x, i64 n) {
     T res = 1;
-    for (; b; b /= 2, a *= a) {
-        if (b % 2) {
-            res *= a;
-        }
+    while (n) {
+        if (n & 1)
+            res = res * x;
+        x = x * x;
+        n >>= 1;
     }
     return res;
 }
 
+// assume -mod <= x < 2mod
+template<int P>
 struct Mint {
     int x;
-    Mint(int x = 0) : x(norm(x)) {}
-    Mint(i64 x) : x(norm(x % mod)) {}
-    int val() const {
+    constexpr Mint() : x{} {}
+    constexpr Mint(i64 x) : x{norm(x % getMod())} {}
+    
+    static int Mod;
+    constexpr static int getMod() {
+        if (P > 0) {
+            return P;
+        } else {
+            return Mod;
+        }
+    }
+    constexpr static void setMod(int Mod_) {
+        Mod = Mod_;
+    }
+    constexpr int norm(int x) const {
+        if (x < 0) {
+            x += getMod();
+        }
+        if (x >= getMod()) {
+            x -= getMod();
+        }
         return x;
     }
-    Mint operator-() const {
-        return Mint(norm(mod - x));
+    constexpr int val() const {
+        return x;
     }
-    Mint inv() const {
+    explicit constexpr operator int() const {
+        return x;
+    }
+    constexpr Mint operator-() const {
+        Mint res;
+        res.x = norm(getMod() - x);
+        return res;
+    }
+    constexpr Mint inv() const {
         assert(x != 0);
-        return power(*this, mod - 2);
+        return power(*this, getMod() - 2);
     }
-    Mint &operator*=(const Mint &rhs) {
-        x = i64(x) * rhs.x % mod;
+    constexpr Mint &operator*=(Mint rhs) & {
+        x = 1LL * x * rhs.x % getMod();
         return *this;
     }
-    Mint &operator+=(const Mint &rhs) {
+    constexpr Mint &operator+=(Mint rhs) & {
         x = norm(x + rhs.x);
         return *this;
     }
-    Mint &operator-=(const Mint &rhs) {
+    constexpr Mint &operator-=(Mint rhs) & {
         x = norm(x - rhs.x);
         return *this;
     }
-    Mint &operator/=(const Mint &rhs) {
+    constexpr Mint &operator/=(Mint rhs) & {
         return *this *= rhs.inv();
     }
-    friend Mint operator*(const Mint &lhs, const Mint &rhs) {
+    friend constexpr Mint operator*(Mint lhs, Mint rhs) {
         Mint res = lhs;
         res *= rhs;
         return res;
     }
-    friend Mint operator+(const Mint &lhs, const Mint &rhs) {
+    friend constexpr Mint operator+(Mint lhs, Mint rhs) {
         Mint res = lhs;
         res += rhs;
         return res;
     }
-    friend Mint operator-(const Mint &lhs, const Mint &rhs) {
+    friend constexpr Mint operator-(Mint lhs, Mint rhs) {
         Mint res = lhs;
         res -= rhs;
         return res;
     }
-    friend Mint operator/(const Mint &lhs, const Mint &rhs) {
+    friend constexpr Mint operator/(Mint lhs, Mint rhs) {
         Mint res = lhs;
         res /= rhs;
         return res;
     }
-    friend std::istream &operator>>(std::istream &is, Mint &a) {
+    friend constexpr std::istream &operator>>(std::istream &is, Mint &a) {
         i64 v;
         is >> v;
         a = Mint(v);
         return is;
     }
-    friend std::ostream &operator<<(std::ostream &os, const Mint &a) {
+    friend constexpr std::ostream &operator<<(std::ostream &os, const Mint &a) {
         return os << a.val();
+    }
+    friend constexpr bool operator==(Mint lhs, Mint rhs) {
+        return lhs.val() == rhs.val();
+    }
+    friend constexpr bool operator!=(Mint lhs, Mint rhs) {
+        return lhs.val() != rhs.val();
     }
 };
 
-Mint Fermat(Mint a){
+using U = Mint<mod>;
+
+U Fermat(U a){
     return power(a, mod - 2);
 }
 
 const int maxn = (int)1e5;
-Mint fact[maxn];
+U fact[maxn];
 
-Mint C(int n, int k){
+U C(int n, int k){
     if (n < k) return 0;
     return (fact[n] * fact[k].inv()) * fact[n - k].inv();
 }
