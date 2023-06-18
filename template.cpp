@@ -40,7 +40,6 @@ template<typename X, typename...Y> void dbg(X x, Y...y) { std::cerr << ' ' << x;
 #define rforr(i, l, r) for (int i = (int)(l); i >= (int)(r); --i)
 #define fore(i, v) for (auto &i : v)
 #define Mid (l + ((r - l) >> 1))
-#define sz(var_) ((int)(var_).size())
 #define all(var_) (var_).begin(),(var_).end()
 
 #define rand() uid(rng)
