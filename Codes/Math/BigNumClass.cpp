@@ -2,6 +2,7 @@
 
 using i64 = long long;
 
+
 template<class T>
 T power(T x, i64 n) {
     T res = 1;
