@@ -10,7 +10,7 @@ bool vis[maxn];
 
 void dfs(int u){
     vis[u] = true;
-    for (int v : AdjList[u])
+    for (auto[v, _] : AdjList[u])
         if (!vis[v]) dfs(v);
     S.push(u);
 }

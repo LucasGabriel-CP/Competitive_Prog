@@ -1,56 +1,69 @@
-vector<bool> Visit;
-vvi AdjList, AdjRe;
-vi Order, Component;		//Da o resultado ao contrário
+/*
+* Source: https://github.com/tdas0/lib/blob/master/library/Graph/SCC.cpp
+* Complexity: O(|V|)
+*/
 
-void dfs1(int v)
-{
-	Visit[v] = true;
-	for (int u : AdjList[v])
-		if (!Visit[u])
-			dfs1(u);
-	Order.push_back(v);
-}
+#include <bits/stdc++.h>
 
-void dfs2(int v)
-{
-	Visit[v] = true;
-	Component.push_back(v);
-	for (int u : AdjRe[v])
-		if (!Visit[u])
-			dfs2(u);
-}
+struct SCC {
+    std::vector<std::vector<int>> g, comps;
+    std::vector<int> val, z, cont, comp;
+    int Time = 0, ncomps = 0 , n; 
+    SCC(std::vector<std::vector<int>> _g, int _n)
+        : n(_n), g(_g), val(n+1, 0), comp(n+1, -1) { }
+    int dfs(int j) {
+        int low = val[j] = ++Time, x ; z.push_back(j);
+        for (auto e: g[j]) {
+            if(comp[e] < 0) {
+                low = std::min(low, val[e] ?: dfs(e));
+            }
+        }
+        if (low == val[j]) {
+            do {
+                x = z.back() ; z.pop_back();
+                comp[x] = ncomps;
+                cont.push_back(x);
+            } while(x != j);
+            comps.push_back(cont), cont.clear();
+            ncomps++;
+        }
+        return val[j] = low;
+    }
 
-int main()
-{
-	//freopen("input.txt", "r", stdin);
-	int N;	scanf("%d", N);
-	AdjList.assign(N, vi());
-	AdjRe.assign(N, vi());
-	while (true)
-	{
-		int a, b;	scanf("%d %d", &a, &b);
-		AdjList[a].push_back(b);
-		AdjList[b].push_back(a);
-	}
-	
-	Visit.assign(N, false);
-	for (int i = 0; i < N; i++)
-		if (!Visit[i])
-			dfs1(i);
+    void scc() {
+        val.assign(n+1,0); comp.assign(n+1, -1);
+        Time = ncomps = 0 ;
+        for (int i = 1; i <= n; i++) {
+            if(comp[i] < 0) {
+                dfs(i);
+            }
+        }
+    }
 
-	//Pegar o grafo transposto
-	Visit.assign(N, false);
-	reverse(Order.begin(), Order.end());
+    std::vector<std::vector<int>> DAG() {// sem arestas repetidas
+        std::vector<std::vector<int>> dag(n+1);
+        val.assign(n+1,-1);
 
-	for (int i : Order)
-	{
-		if (!Visit[i])
-		{
-			dfs2(i);
-			//Process data
-			Component.clear();
-		}
-	}
+        for(int i=0;i<ncomps;i++) {
+            for(auto v : comps[i]) {
+                for(auto to : g[v]) {
+                    if(val[to] == -1 && comp[to] != i) {
+                        val[to] = 1;
+                        dag[i].push_back(comp[to]);
+                    }
+                }
+            }
+            for(auto v : comps[i]) {
+                for(auto to : g[v]) {
+                    val[to] = -1;
+                }
+            }
+        }
+        return dag;
+    }
 
-	return 0;
-}
+    // representante da componente c (c < ncomps):
+    int repre(int c) {
+        return comps[c][0];
+    }
+};

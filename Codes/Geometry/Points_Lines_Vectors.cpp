@@ -10,6 +10,14 @@ struct point_i{
     int x, y;
     point_i(){ x = y = 0; }
     point_i(int x_, int y_) : x(x_), y(y_){ }
+    friend std::ostream &operator << (std::ostream &os, point_i& p){
+        os << p.x << ' ' << p.y;
+        return os;
+    }
+    friend std::istream &operator >>(std::ifstream &is, point_i &p){
+        is >> p.x >> p.y;
+        return is;
+    }
     friend bool operator < (const point_i& lhs, const point_i& rhs){
         if (lhs.x != rhs.x) return lhs.x < rhs.x;
         return lhs.y < rhs.y;
@@ -33,6 +41,14 @@ struct point{
         double temp = x;
         x = x * cos(r) - y * sin(r);
         y = temp * sin(r) + y * cos(r);
+    }
+    friend std::ostream &operator << (std::ostream &os, point& p){
+        os << p.x << ' ' << p.y;
+        return os;
+    }
+    friend std::istream &operator >>(std::ifstream &is, point &p){
+        is >> p.x >> p.y;
+        return is;
     }
     friend bool operator < (const point& lhs, const point& rhs){
         if (fabs(lhs.x - rhs.x) > eps) return lhs.x < rhs.x;
@@ -210,7 +226,7 @@ bool circle2PtsRad(point p1, point p2, double r, point &c){
  */
 // Area = (base*altura) * 0.5
 // Heron's formula: sqrt(s*(s-a)*(s-b)*(s-c)) s -> semi-per
-// da pra isolar sin(A) = 2*Area/(C*B)
+// d� pra isolar sin(A) = 2*Area/(C*B)
 // c^2 = a^2 + b^2 - 2*a*b*cos(C)
 
 //Area de poligono qualquer pode ser calculado a partir da

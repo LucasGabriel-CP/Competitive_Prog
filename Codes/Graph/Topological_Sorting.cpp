@@ -1,26 +1,24 @@
-//Sort vertices on a DAG
 #include <bits/stdc++.h>
 
-using namespace std;
-
-#define MAXN (int)10e5
-typedef vector<int> vi;
-
-int N;
-bool visit[MAXN];
-vi AdjList[MAXN], ts;
-
-void dfs(int u){
-    visit[u] = true;
-    for (auto v : AdjList[u])
-        if (!visit[v])
-            dfs(v);
-    ts.push_back(u);
-}
-
-void TopoSort(){
-    memset(visit, false, N);
-    for (int i = 0; i < N; ++i)
-        if (!visit[i]) dfs(i);
-    reverse(ts.begin(), ts.end());
+std::vector<int> topo_sort(std::vector<std::vector<int>> adj) {
+    std::vector<int> in((int)adj.size() + 1), ret;
+    for (auto &u: adj) {
+        for (int v: u) {
+            in[v]++;
+        }
+    }
+    std::queue<int> q;
+    for (int i = 0; i < (int)adj.size(); i++) {
+        if (!in[i]) q.push(i);
+    }
+    while (!q.empty()) {
+        int u = q.front(); q.pop();
+        ret.push_back(u);
+        for (int v: adj[u]) {
+            if (--in[v] == 0) q.push(v);
+        }
+    }
+    if ((int)ret.size() != (int)adj.size())
+        return std::vector<int>();
+    return ret;
 }
