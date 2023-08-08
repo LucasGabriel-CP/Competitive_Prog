@@ -29,6 +29,13 @@ struct point_i{
     friend bool operator == (const point_i& lhs, const point_i& rhs){
         return (lhs.x == rhs.x) && (lhs.y == rhs.y);
     }
+    friend int operator ^ (const point_i& lhs, const point_i& rhs) {
+        return lhs.x * rhs.y - lhs.y * rhs.x;
+    }
+    point_i operator+(const point_i &p) { return {x + p.x, y + p.y}; }
+    point_i operator-(const point_i &p) { return {x - p.x, y - p.y}; }
+    point_i operator*(int d) { return {x * d, y * d}; }
+    point_i operator/(int d) { return {x / d, y / d}; }
 };
 
 struct point{
@@ -61,7 +68,28 @@ struct point{
     friend bool operator == (const point& lhs, const point& rhs){
         return (fabs(lhs.x - rhs.x) < eps) && fabs(lhs.y - rhs.y) < eps;
     }
+    friend double operator ^ (const point& lhs, const point& rhs) {
+        return lhs.x * rhs.y - lhs.y * rhs.x;
+    }
+    point operator+(const point &p) { return {x + p.x, y + p.y}; }
+    point operator-(const point &p) { return {x - p.x, y - p.y}; }
+    point operator*(int d) { return {x * d, y * d}; }
+    point operator/(int d) { return {x / d, y / d}; }
 };
+
+template<typename T = point>
+void radial_sort(std::vector<T>& vet) {
+    auto quad = [&](point p) {
+        if (p.x < 0 and p.y < 0) return 0;
+        if (p.x >= 0 and p.y < 0) return 1;
+        if (p.x >= 0 and p.y >= 0) return 2;
+        if (p.x < 0 and p.y >= 0) return 3;
+        assert(false);
+    };
+    sort(vet.begin(), vet.end(), [&] (point a, point b) {
+        return quad(a) == quad(b) ? a.x * b.y > a.y * b.x : quad(a) < quad(b);
+    });
+}
 
 double dist(const point &p1, const point &p2){
     return sqrt((p1.x - p2.x)*(p1.x - p2.x) + (p1.y - p2.y)*(p1.y - p2.y));
@@ -166,10 +194,11 @@ double angle(const point &a, const point &o, const point &b){ //return angle in 
 
 // > 0 -> left turn, == 0 -> collinear, < 0 -> right turn
 bool ccw(point p, point q, point r){
-    return cross(toVec(p, q), toVec(p, r)) > eps;
+    return (point(q - p) ^ point(r - q)) > eps;
 }
+
 bool collinear(point p, point q, point r){
-    return fabs(cross(toVec(p, q), toVec(p, r))) < eps;
+    return fabs(point(q - p) ^ point(r - q)) < eps;
 }
 
 double distToLine(point p, point a, point b, point &c){
