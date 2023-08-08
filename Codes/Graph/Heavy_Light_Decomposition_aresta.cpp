@@ -5,7 +5,6 @@ const int maxn = 1e5 + 50, MAXLOGN = 18, inf = 1e9;
 template<typename T>
 class SegTree{
 private:
-    #define Mid ((l + r) >> 1)
     #define nil 0
     int n;
     std::vector<T> lazy, seg;
@@ -14,16 +13,16 @@ private:
     }
     void push(int id, bool child){
         T &l = lazy[id];
-        if (l){
+        if (l) {
             seg[id] += l;
-            if (child){
+            if (child) {
                 lazy[2*id] += l;
                 lazy[2*id+1] += l;
             }
             l = 0;
         }
     }
-    void build(int id, int l, int r, std::vector<T> const& vet){
+    void build(int id, int l, int r, std::vector<T> const& vet) {
         if(l == r) seg[id] = vet[l];
         else{
             build(2*id, l, Mid, vet);
@@ -43,7 +42,7 @@ private:
         push(id, r-l);
         if(x > r || y < l)  return;
         if(l >= x && r <= y){
-            lazy[id] = val;
+            lazy[id] += val;
             push(id, r-l);
             return;
         }
@@ -53,7 +52,7 @@ private:
     }
 public:
     SegTree(){ }
-    SegTree(std::vector<int> const& A){
+    SegTree(std::vector<T> const& A){
         n = (int)A.size();
         seg.resize(4*n);
         lazy.assign(4*n, 0);
@@ -66,7 +65,7 @@ public:
 //Grafo
 //HLD
 template<typename T>
-struct hld{
+struct hld {
     SegTree<T> tree;
     std::vector<T> vet, arr, chainHead, parent, position, subtree_sz;
     std::vector<std::vector<std::pair<int, T>>> adj;
@@ -104,17 +103,17 @@ struct hld{
                 std::swap(i, adj[u][0]);
         }
     }
-    void build(int n, int root = 0){
+    void build(int root = 0){
         dfs(root);
         pos = 0;
         chainHead[root] = root;
         HLD(root);
-        tree = SegTree(arr);
+        tree = SegTree<T>(arr);
     }
-    int query_path(int u, int v){
-        if (u == v) return;
+    T query_path(int u, int v){
+        if (u == v) return 0ll;
         if (position[u] < position[v]) std::swap(u, v);
-        if (chainHead[u] == chainHead[v]) return tree.query(position[v], position[u]);
+        if (chainHead[u] == chainHead[v]) return tree.query(position[v] + 1, position[u]);
         return tree.query(position[chainHead[u]], position[u]) + query_path(parent[chainHead[u]], v);
     }
 
@@ -122,7 +121,7 @@ struct hld{
         if (u == v) return;
         if (position[u] < position[v]) std::swap(u, v);
         if (chainHead[u] == chainHead[v]){
-            tree.update(position[v], position[u], val);
+            tree.update(position[v] + 1, position[u], val);
             return;
         }
         tree.update(position[chainHead[u]], position[u], val);
@@ -133,7 +132,7 @@ struct hld{
         return chainHead[u] == chainHead[v] ? v : lca(parent[chainHead[u]], v);
     }
     //Soma acumulada na subárvore
-    Node query_subtree(int a) {
+    T query_subtree(int a) {
         if (subtree_sz[a] == 1) return 0;
         return tree.query(position[a], position[a] + subtree_sz[a]-1);
     }
