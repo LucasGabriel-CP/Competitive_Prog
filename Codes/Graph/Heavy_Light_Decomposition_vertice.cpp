@@ -53,7 +53,7 @@ private:
     }
 public:
     SegTree(){ }
-    SegTree(std::vector<int> const& A){
+    SegTree(std::vector<T> const& A){
         n = (int)A.size();
         seg.resize(4*n);
         lazy.assign(4*n, 0);
@@ -126,7 +126,7 @@ struct hld{
         return chainHead[u] == chainHead[v] ? v : lca(parent[chainHead[u]], v);
     }
     //Soma acumulada na subárvore
-    Node query_subtree(int a) {
+    T query_subtree(int a) {
         return tree.query(position[a], position[a] + subtree_sz[a]-1);
     }
     void update_subtree(int a, int x) {
