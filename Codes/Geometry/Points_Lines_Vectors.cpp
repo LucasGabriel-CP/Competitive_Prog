@@ -226,15 +226,15 @@ bool circle2PtsRad(point p1, point p2, double r, point &c){
  */
 // Area = (base*altura) * 0.5
 // Heron's formula: sqrt(s*(s-a)*(s-b)*(s-c)) s -> semi-per
-// d� pra isolar sin(A) = 2*Area/(C*B)
+// da pra isolar sin(A) = 2*Area/(C*B)
 // c^2 = a^2 + b^2 - 2*a*b*cos(C)
 
 //Area de poligono qualquer pode ser calculado a partir da
 //soma das multiplicacoes cruzados * 0.5
 double areaConvex(const std::vector<point> &P){
     double ans = 0.0;
-    for (int i = 0; i < (int)P.size()-1; ++i){
-        ans += (P[i].x*P[i+1].y - P[i+1].x*P[i].y);
+    for (int i = 0; i < (int)P.size(); ++i){
+        ans += (P[i].x*P[i+1].y - P[(i+1) % (int)P.size()].x*P[i].y);
     }
     return fabs(ans)*0.5;
 }
