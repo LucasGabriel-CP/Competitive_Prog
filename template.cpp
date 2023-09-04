@@ -63,7 +63,7 @@ using d16 = long double;
 template<class X, class Y> std::istream& operator >> (std::istream& input, std::pair<X, Y>& _var) { input >> _var.first >> _var.second; return input; }
 template<class X> std::istream& operator >> (std::istream& input, std::vector<X>& _var) { for(X &x : _var) input >> x; return input; }
 template<class X, class Y> std::ostream& operator << (std::ostream& output, std::pair<X, Y> const& _var) { output << _var.first << " " << _var.second; return output; }
-template<class X> std::ostream& operator << (std::ostream& output, std::vector<X> const& _var) { for(int i = 0; i < sz(_var); i++) output << (i > 0 ? " " : "") << _var[i]; return output; }
+template<class X> std::ostream& operator << (std::ostream& output, std::vector<X> const& _var) { for(int i = 0; i < (int)_var.size(); i++) output << (i > 0 ? " " : "") << _var[i]; return output; }
 template<class X, class Y> std::ostream& operator << (std::ostream& output, std::map<X, Y> const& _var) { bool first = 1; for(auto const &[a, b] : _var) { if(first == 0) output << " "; first = 0; output << "{" << a << " : " << b << "}"; } return output; }
 template<class X> std::ostream& operator << (std::ostream& output, std::set<X> const& _var) { for(auto it = _var.begin(); it != _var.end(); it++) output << (it != _var.begin() ? " " : "") << *it; return output; }
 
