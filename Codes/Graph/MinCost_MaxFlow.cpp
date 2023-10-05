@@ -12,13 +12,13 @@ namespace mcmf {
         edge(int f, int t, i64 cap_, i64 c){ from = f; to = t; cap = cap_; cost = c; }
     };
 
-    const int MAXN = 305;
+    const int maxn = 305;
     const long long inf64 = (long long)1e18;
     std::vector<std::vector<int>> adj;
     std::vector<edge> edges;
-    bool inq[MAXN];
-    int p[MAXN];
-    i64 d[MAXN];
+    bool inq[maxn];
+    int p[maxn];
+    i64 d[maxn];
     int n;
 
     void init(int _n) {
@@ -28,7 +28,7 @@ namespace mcmf {
 
 
     bool spfa(int source, int sink){
-        for (int i = 0; i < MAXN; i++) d[i] = inf64;
+        for (int i = 0; i < maxn; i++) d[i] = inf64;
         memset(p, -1, sizeof(p));
         memset(inq, 0, sizeof(inq));
         std::queue<int> q;

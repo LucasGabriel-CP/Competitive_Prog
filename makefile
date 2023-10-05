@@ -1,12 +1,9 @@
 EXE = marat
 CC = g++
-CFLAGS = -std=c++20 -Wall -Wextra -g -DPIZZA
+CFLAGS = -fno-omit-frame-pointer -Wshadow -Wno-unused-result -Wno-sign-compare -Wno-char-subscripts -std=c++20 -Wall -Wextra -g -DPIZZA
 
-main: marat.o
-	$(CC) $(CFLAGS) -o $(EXE) marat.o && marat.exe
+main:
+	$(CC) $(CFLAGS) -o $(EXE) marat.cpp && marat.exe
 
-in: marat.o
-	$(CC) $(CFLAGS) -o $(EXE) marat.o && marat.exe < input.txt
-
-marat.o: marat.cpp
-	$(CC) $(CFLAGS) -c marat.cpp
+in:
+	$(CC) $(CFLAGS) -o $(EXE) marat.cpp && marat.exe < input.txt
