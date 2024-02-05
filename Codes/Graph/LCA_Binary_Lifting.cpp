@@ -1,3 +1,7 @@
+/*
+	(ˆ ڡ ˆ)yum!
+*/
+
 const int maxn = (int)1e5 + 5, maxlogn = 19;
 
 struct lcaBinLift {

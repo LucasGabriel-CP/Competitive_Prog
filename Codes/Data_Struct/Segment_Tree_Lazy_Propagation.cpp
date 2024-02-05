@@ -1,3 +1,7 @@
+/*
+    (๑ᵔ⤙ᵔ๑)⋆˚✿˖°
+*/
+
 template<typename T>
 class SegTree{
 private:

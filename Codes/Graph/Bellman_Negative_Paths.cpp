@@ -1,3 +1,7 @@
+/*
+	(ˆ ڡ ˆ)yum!
+*/
+
 typedef std::vector<int> vi;
 typedef std::vector<std::pair<int, int>> vii;
 

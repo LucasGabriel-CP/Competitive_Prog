@@ -1,4 +1,6 @@
-#include<bits/stdc++.h>
+/*
+    (๑ᵔ⤙ᵔ๑)⋆˚✿˖°
+*/
 
 template<typename T>
 struct Node {

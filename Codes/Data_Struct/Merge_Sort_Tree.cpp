@@ -1,4 +1,7 @@
-#include<bits/stdc++.h>
+/*
+    (๑ᵔ⤙ᵔ๑)⋆˚✿˖°
+*/
+
 #define Mid ((l + r) >> 1)
 
 typedef std::vector<int> vi;

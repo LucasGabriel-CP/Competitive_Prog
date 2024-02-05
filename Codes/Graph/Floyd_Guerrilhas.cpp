@@ -1,3 +1,7 @@
+/*
+	(ˆ ڡ ˆ)yum!
+*/
+
 const int inf = 1e9;
 int n;
 

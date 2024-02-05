@@ -1,3 +1,7 @@
+/*
+	(ˆ ڡ ˆ)yum!
+*/
+
 vvi AdjList;
 vc Cor;
 vi Parent;

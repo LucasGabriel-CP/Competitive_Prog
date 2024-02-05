@@ -1,3 +1,7 @@
+/*
+    (๑ᵔ⤙ᵔ๑)⋆˚✿˖°
+*/
+
 template<class T>
 struct min_stack {
 	std::stack<std::pair<T, T>> s;

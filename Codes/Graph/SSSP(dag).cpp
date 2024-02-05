@@ -1,4 +1,9 @@
 //works on O(V+E)
+
+/*
+	(ˆ ڡ ˆ)yum!
+*/
+
 using namespace std;
 
 const int maxn = 1e5, inf = 1e9;

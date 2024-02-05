@@ -1,3 +1,7 @@
+/*
+	(ˆ ڡ ˆ)yum!
+*/
+
 const int inf = (int)1e8;
 std::vector<std::pair<int, int>> AdjList[20];
 std::vector<int> dist, parent;

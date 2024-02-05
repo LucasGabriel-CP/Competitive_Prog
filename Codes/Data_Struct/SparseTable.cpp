@@ -1,3 +1,7 @@
+/*
+    (๑ᵔ⤙ᵔ๑)⋆˚✿˖°
+*/
+
 using i64 = long long;
 const int inf = (int)1e9, maxlogn = 20;
 

@@ -1,3 +1,7 @@
+/*
+    (๑ᵔ⤙ᵔ๑)⋆˚✿˖°
+*/
+
 template<class T>
 struct min_queue {
 	std::deque<std::pair<T, int>> q;

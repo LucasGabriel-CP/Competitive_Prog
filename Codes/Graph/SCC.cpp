@@ -3,6 +3,10 @@
 * Complexity: O(|V|)
 */
 
+/*
+	(ˆ ڡ ˆ)yum!
+*/
+
 struct SCC {
     std::vector<std::vector<int>> g, comps;
     std::vector<int> val, z, cont, comp;

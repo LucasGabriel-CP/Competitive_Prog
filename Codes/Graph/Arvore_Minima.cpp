@@ -1,3 +1,7 @@
+/*
+	(ˆ ڡ ˆ)yum!
+*/
+
 const int maxn = 1e5;
 
 struct aresta{

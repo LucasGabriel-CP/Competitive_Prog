@@ -1,3 +1,7 @@
+/*
+	(ˆ ڡ ˆ)yum!
+*/
+
 using namespace std;
 
 const int maxn = 5*1e3 + 5, inf = 1e9;

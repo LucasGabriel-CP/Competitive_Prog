@@ -1,3 +1,7 @@
+/*
+    (๑ᵔ⤙ᵔ๑)⋆˚✿˖°
+*/
+
 const int maxn = (int)1e5;
 int BIT[maxn][maxn];
 

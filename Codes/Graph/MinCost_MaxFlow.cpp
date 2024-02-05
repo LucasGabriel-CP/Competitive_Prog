@@ -1,5 +1,8 @@
 //O((N^2)(M^2)) with bellmanford/spaf
 //O((N^3)M) with dijkstra
+/*
+	(ˆ ڡ ˆ)yum!
+*/
 
 using i64 = long long;
 

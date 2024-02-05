@@ -4,6 +4,10 @@
 * Unit Capacities: O(std::min(|E| * sqrt(|E|), |E| * |V| ^ (2/3)))
 */
 
+/*
+	(ˆ ڡ ˆ)yum!
+*/
+
 struct Flow {
     static constexpr int INF = (int)1e9;
     int n;

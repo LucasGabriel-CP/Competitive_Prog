@@ -5,6 +5,11 @@
  *  To obtain the actual flow, look at positive values only.
  * Time: Approximately O(E^2)
 */
+
+/*
+	(ˆ ڡ ˆ)yum!
+*/
+
 #include<ext/pb_ds/priority_queue.hpp>
 
 template <typename flow_t = int, typename cost_t = long long>

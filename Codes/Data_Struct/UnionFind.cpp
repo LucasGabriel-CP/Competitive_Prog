@@ -1,6 +1,10 @@
 //Union-Find, references CP4
 //Achar representande de conjuntos
 
+/*
+    (๑ᵔ⤙ᵔ๑)⋆˚✿˖°
+*/
+
 class UnionFind{
 private:
     std::vector<int> p, rank, setSize;

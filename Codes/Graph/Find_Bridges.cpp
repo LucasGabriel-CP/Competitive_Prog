@@ -1,3 +1,7 @@
+/*
+	(ˆ ڡ ˆ)yum!
+*/
+
 const int maxn = 1005;
 
 int n, m, timer;

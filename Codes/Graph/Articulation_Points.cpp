@@ -1,3 +1,7 @@
+/*
+	(ˆ ڡ ˆ)yum!
+*/
+
 int n, m, timer;
 
 std::vector<bool> vis;

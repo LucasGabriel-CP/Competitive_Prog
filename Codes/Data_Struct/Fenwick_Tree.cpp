@@ -1,3 +1,7 @@
+/*
+    (๑ᵔ⤙ᵔ๑)⋆˚✿˖°
+*/
+
 template<typename T>
 struct FenwickTree{
     std::vector<T> BIT;
