@@ -1,5 +1,3 @@
-#include<bits/stdc++.h>
-
 int n, m, timer;
 
 std::vector<bool> vis;

@@ -1,5 +1,3 @@
-#include <bits/stdc++.h>
-
 template<class T>
 struct min_stack {
 	std::stack<std::pair<T, T>> s;

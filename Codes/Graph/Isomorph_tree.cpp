@@ -1,5 +1,3 @@
-#include<bits/stdc++.h>
-
 using i64 = long long;
 std::map<std::vector<int>, int> mphash;
 

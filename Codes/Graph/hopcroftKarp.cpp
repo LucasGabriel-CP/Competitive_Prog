@@ -1,5 +1,3 @@
-#include <bits/stdc++.h>
-
 /*
 * Source: kactl
 * Complexity: O(sqrt(|V|) * |E|)

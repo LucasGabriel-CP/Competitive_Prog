@@ -1,5 +1,3 @@
-#include <bits/stdc++.h>
-
 using namespace std;
 
 bool comp(vector<int> R, int i, int j, int p){

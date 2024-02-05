@@ -1,5 +1,3 @@
-#include <bits/stdc++.h>
-
 struct Trie {
 	std::vector<std::vector<int>> to;
 	std::vector<int> end, pref;

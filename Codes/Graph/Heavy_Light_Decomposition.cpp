@@ -1,5 +1,3 @@
-#include <bits/stdc++.h>
-
 typedef int no;
 const int maxn = 5*1e3 + 5, MAXLOGN = 17, inf = 1e9;
 

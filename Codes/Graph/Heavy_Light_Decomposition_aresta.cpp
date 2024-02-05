@@ -1,5 +1,3 @@
-#include<bits/stdc++.h>
-
 const int maxn = 1e5 + 50, MAXLOGN = 18, inf = 1e9;
 
 template<typename T>

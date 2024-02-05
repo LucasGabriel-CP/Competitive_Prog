@@ -1,6 +1,4 @@
 // Raio da Terra: Polar = 6357km, Equatorial = 6378km, Média = 6371km
-#include<bits/stdc++.h>
-
 inline double sq(double x) { return x * x; }
 
 /** Converte latitude-longitude em coordenadas polares **/

@@ -1,5 +1,3 @@
-#include <bits/stdc++.h>
-
 using namespace std;
 
 int matrix[8][8];

@@ -1,5 +1,3 @@
-#include <bits/stdc++.h>
-
 
 struct MinQueue {
     std::deque<std::pair<int,int>> q;

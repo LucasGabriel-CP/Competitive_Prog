@@ -1,5 +1,3 @@
-#include <bits/stdc++.h>
-
 struct centroid {
     std::vector<std::vector<int>> adj;
     std::vector<bool> del;

@@ -1,5 +1,3 @@
-#include <bits/stdc++.h>
-
 std::vector<int> topo_sort(std::vector<std::vector<int>> adj) {
     std::vector<int> in((int)adj.size() + 1), ret;
     for (auto &u: adj) {

@@ -1,7 +1,5 @@
 //Union-Find, references CP4
 //Achar representande de conjuntos
-#include <bits/stdc++.h>
-
 
 class UnionFind{
 private:

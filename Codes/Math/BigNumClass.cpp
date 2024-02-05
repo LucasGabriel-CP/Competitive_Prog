@@ -1,5 +1,3 @@
-#include <bits/stdc++.h>
-
 using i64 = long long;
 
 
@@ -111,6 +109,99 @@ struct Mint {
 
 constexpr int mod = 998244353;
 using U = Mint<mod>;
+
+template<i64 P>
+struct Mlong {
+    i64 x;
+    constexpr Mlong() : x{} {}
+    constexpr Mlong(i64 x) : x{norm(x % getMod())} {}
+    
+    static i64 Mod;
+    constexpr static i64 getMod() {
+        if (P > 0) {
+            return P;
+        } else {
+            return Mod;
+        }
+    }
+    constexpr static void setMod(i64 Mod_) {
+        Mod = Mod_;
+    }
+    constexpr i64 norm(i64 x) const {
+        if (x < 0) {
+            x += getMod();
+        }
+        if (x >= getMod()) {
+            x -= getMod();
+        }
+        return x;
+    }
+    constexpr i64 val() const {
+        return x;
+    }
+    explicit constexpr operator i64() const {
+        return x;
+    }
+    constexpr Mlong operator-() const {
+        Mlong res;
+        res.x = norm(getMod() - x);
+        return res;
+    }
+    constexpr Mlong inv() const {
+        assert(x != 0);
+        return power(*this, getMod() - 2);
+    }
+    constexpr Mlong &operator*=(Mlong rhs) & {
+        x = 1LL * x * rhs.x % getMod();
+        return *this;
+    }
+    constexpr Mlong &operator+=(Mlong rhs) & {
+        x = norm(x + rhs.x);
+        return *this;
+    }
+    constexpr Mlong &operator-=(Mlong rhs) & {
+        x = norm(x - rhs.x);
+        return *this;
+    }
+    constexpr Mlong &operator/=(Mlong rhs) & {
+        return *this *= rhs.inv();
+    }
+    friend constexpr Mlong operator*(Mlong lhs, Mlong rhs) {
+        Mlong res = lhs;
+        res *= rhs;
+        return res;
+    }
+    friend constexpr Mlong operator+(Mlong lhs, Mlong rhs) {
+        Mlong res = lhs;
+        res += rhs;
+        return res;
+    }
+    friend constexpr Mlong operator-(Mlong lhs, Mlong rhs) {
+        Mlong res = lhs;
+        res -= rhs;
+        return res;
+    }
+    friend constexpr Mlong operator/(Mlong lhs, Mlong rhs) {
+        Mlong res = lhs;
+        res /= rhs;
+        return res;
+    }
+    friend constexpr std::istream &operator>>(std::istream &is, Mlong &a) {
+        i64 v;
+        is >> v;
+        a = Mlong(v);
+        return is;
+    }
+    friend constexpr std::ostream &operator<<(std::ostream &os, const Mlong &a) {
+        return os << a.val();
+    }
+    friend constexpr bool operator==(Mlong lhs, Mlong rhs) {
+        return lhs.val() == rhs.val();
+    }
+    friend constexpr bool operator!=(Mlong lhs, Mlong rhs) {
+        return lhs.val() != rhs.val();
+    }
+};
 
 const int maxn = (int)1e5;
 U fact[maxn];

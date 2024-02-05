@@ -3,8 +3,6 @@
 * Complexity: O(|V| * |E|)
 */
 
-#include <bits/stdc++.h>
-
 int n, k;
 std::vector<std::vector<int>> g;
 std::vector<int> mt;

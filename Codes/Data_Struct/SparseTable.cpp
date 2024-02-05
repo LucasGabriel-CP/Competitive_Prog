@@ -1,5 +1,3 @@
-#include<bits/stdc++.h>
-
 using i64 = long long;
 const int inf = (int)1e9, maxlogn = 20;
 
@@ -8,7 +6,7 @@ int log2_floor(unsigned long long i) {
 }
 
 template <typename T>
-struct SparseTableMin{
+struct SparseTable{
     std::vector<std::vector<T>> st;
     int k, n;
     int modify(T const& a, T const& b){

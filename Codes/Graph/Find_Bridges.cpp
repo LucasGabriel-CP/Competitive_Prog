@@ -1,5 +1,3 @@
-#include <bits/stdc++.h>
-
 const int maxn = 1005;
 
 int n, m, timer;

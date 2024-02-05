@@ -1,4 +1,3 @@
-#include<bits/stdc++.h>
 const int maxn = 1e5;
 
 struct aresta{

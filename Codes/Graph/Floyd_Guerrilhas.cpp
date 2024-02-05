@@ -1,5 +1,3 @@
-#include<bits/stdc++.h>
-
 const int inf = 1e9;
 int n;
 

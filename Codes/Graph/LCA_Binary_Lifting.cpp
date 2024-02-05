@@ -1,5 +1,3 @@
-#include<bits/stdc++.h>
-
 const int maxn = (int)1e5 + 5, maxlogn = 19;
 
 struct lcaBinLift {

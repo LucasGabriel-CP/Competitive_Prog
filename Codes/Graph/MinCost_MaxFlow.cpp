@@ -1,9 +1,8 @@
-#include <bits/stdc++.h>
-using i64 = long long;
-
-
 //O((N^2)(M^2)) with bellmanford/spaf
 //O((N^3)M) with dijkstra
+
+using i64 = long long;
+
 namespace mcmf {
     struct edge{
         int from, to;

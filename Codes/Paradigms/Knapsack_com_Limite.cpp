@@ -1,9 +1,7 @@
-#include <bits/stdc++.h>
-
 using namespace std;
 
 int n;
-int value[60], weight[60], dp[60[61];
+int value[60], weight[60], dp[60][61];
 string nomes[60];
 
 int f(int at, int w){

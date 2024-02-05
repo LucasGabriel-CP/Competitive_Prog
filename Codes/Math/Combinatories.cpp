@@ -1,5 +1,3 @@
-#include <bits/stdc++.h>
-
 using i64 = long long;
 const int maxn = 100010, mod = 1e9+7;
 i64 fact[maxn];

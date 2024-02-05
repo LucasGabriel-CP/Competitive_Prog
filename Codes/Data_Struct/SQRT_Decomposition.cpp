@@ -1,5 +1,3 @@
-#include <bits/stdc++.h>
-
 int vet[(int)2e5+5], blocks[450]; //sqrt(2e5) < 450
 int block_sz;
 
